@@ -1,6 +1,10 @@
 # Watchdog Kit
 
-Point a coding agent (Claude Code or Codex) at a client repo and it builds that app's production watchdog: a contract of doors, deterministic checks, a grounded model review, a report-only findings page with human verdicts, and an eval against the client's own incident history. Report-only is enforced, not promised.
+**Point a coding agent at an app. Get a production watchdog that cannot lie and cannot send.**
+
+The kit is a set of Agent Skills for Claude Code and Codex. Run one command in a client repo and the agent surveys every door the app has (webhooks in, provider calls out, scheduled jobs), writes down how each one proves it fired, builds deterministic checks on that contract, adds a model review that may only quote evidence it was handed, puts the findings on a page where a human marks each one correct or false alarm, and scores the whole thing against the app's own incident history. Nine phases, a human stop after each, and report-only enforced by construction: the runtime holds no credential it could send with.
+
+Built once by hand for a live operations app, then extracted. Every invariant in `core/` has an eval that proves it.
 
 This repo is the kit itself. The phase order, the gates and the reasoning behind each are in `skills/watchdog-build/SKILL.md` and its shared contract, `skills/watchdog-build/references/shared-contract.md`.
 
@@ -13,7 +17,7 @@ The kit assumes four things about the client app: it is a Node or TypeScript app
 Get a checkout and install it for the local user:
 
 ```
-git clone <the kit's repository URL> ~/watchdog-kit
+git clone https://github.com/Ayy-man/watchdog-kit ~/watchdog-kit
 cd ~/watchdog-kit
 node scripts/install.mjs --all          # dry run: lists what it would create
 node scripts/install.mjs --all --yes    # symlinks skills and agents into Claude Code and Codex
@@ -21,7 +25,7 @@ node scripts/install.mjs --all --yes    # symlinks skills and agents into Claude
 
 The default install symlinks, so moving or deleting the checkout breaks it; add `--copy` for a copy that stands alone, and `--uninstall --yes` removes exactly what an earlier run created.
 
-As a Claude Code plugin: `/plugin marketplace add <path or owner/repo>`, then `/plugin install watchdog-kit@watchdog-kit-local`.
+As a Claude Code plugin: `/plugin marketplace add Ayy-man/watchdog-kit`, then `/plugin install watchdog-kit@watchdog-kit-local`.
 
 Next, in a client repo, run the build skill: `/watchdog-build` after a user install, `/watchdog-kit:watchdog-build` after a plugin install, or `$watchdog-build` in Codex. It starts at the survey and resumes from `.watchdog/` when a build is already under way.
 
