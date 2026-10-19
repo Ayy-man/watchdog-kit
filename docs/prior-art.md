@@ -25,3 +25,7 @@ Surveyed 19 Oct 2026 across GitHub, Hacker News and X. No public project does th
 - **Workflow engines for routing** (Keep). Routes, caps and inhibition are a few constants with the incident that set them beside each; a workflow language would hide that.
 
 None of the alerting tools surveyed computes its own precision from human verdicts. That is the kit's differentiator and the reason the page exists before any alert does.
+
+## The build process
+
+The build skill borrowed its shape from GSD (`open-gsd/gsd-core`, surveyed 19 Oct 2026) under a different test: does it make the build friendlier to a human who is not at the keyboard the whole time, without moving a decision away from them. Three things passed: one fixed checkpoint shape so nine stops read as one system, decisions answerable up front recorded early so the build can run ahead to the next question that is genuinely the human's, and independent phases running as parallel subagents with declared write sets. Not taken: standing auto-approval rules, retry caps, session hooks, handoff files and a forced fresh session, each of which either resolved a decision without a human or added a file that the journal already covers.

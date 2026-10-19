@@ -76,4 +76,4 @@ These words mean one thing each, everywhere in this repo and in every prompt it 
 
 ## Status
 
-19 Oct 2026: core 0.2.1 extracted from the first installation and checked against a multi-tenant installation; nine skills, agents, installer and vendoring in place. The first installation now runs on the vendored core.
+19 Oct 2026: core 0.2.1 extracted from the first installation and checked against a multi-tenant installation; nine skills, agents, installer and vendoring in place. The first installation now runs on the vendored core. Later the same day: every human stop became a named decision in the shared contract, the build gained the step and run-ahead modes, phases 1 to 3 run in parallel, the journal records what each phase read so a changed input invalidates the phases after it, and `install.mjs --check` and `vendor-core.mjs --check` became doctors. `node evals/run-all.mjs` runs 13 eval files, all green.
