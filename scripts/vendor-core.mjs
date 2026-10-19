@@ -5,7 +5,7 @@
  *
  *   node scripts/vendor-core.mjs <client repo>            copy core/ in, refusing to overwrite locally edited files
  *   node scripts/vendor-core.mjs <client repo> --force    overwrite locally edited files too
- *   node scripts/vendor-core.mjs <client repo> --check    report only: what diverged, what is stale, what is missing
+ *   node scripts/vendor-core.mjs <client repo> --check    report only; exits 1 when any file is diverged, stale or missing
  *
  * The stamp is <client>/lib/watchdog/core/VENDORED: the kit version (from
  * core/VERSION, or 0.0.0-dev when that file does not exist yet), the kit
@@ -105,8 +105,21 @@ function printReport() {
 }
 
 if (check) {
-  printReport();
-  process.exit(report.diverged.length ? 1 : 0);
+  const repo = resolve(target);
+  console.log(`kit core ${kitVersion()} at ${coreDir}`);
+  console.log(`target   ${destDir}${stamp ? ` (stamped ${stamp.version})` : ' (no VENDORED stamp)'}`);
+  const fix = {
+    missing: `in the kit, not in the client; run node scripts/vendor-core.mjs ${repo}`,
+    stale: `unchanged in the client, newer in the kit; run node scripts/vendor-core.mjs ${repo}`,
+    diverged: `edited in the client since vendoring; copy the edit back into the kit, or run node scripts/vendor-core.mjs ${repo} --force to drop it`,
+  };
+  for (const kind of ['diverged', 'stale', 'missing']) {
+    for (const f of report[kind]) console.log(`${kind.padEnd(8)} ${rel(f)}  (${fix[kind]})`);
+  }
+  for (const f of report.extra) console.log(`extra    ${rel(f)}  (in the client, not in the kit; left alone)`);
+  const problems = report.diverged.length + report.stale.length + report.missing.length;
+  console.log(problems ? `${problems} file(s) out of step with the kit` : `all ${report.same.length} file(s) match the kit`);
+  process.exit(problems ? 1 : 0);
 }
 
 if (report.diverged.length && !force) {

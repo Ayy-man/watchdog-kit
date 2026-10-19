@@ -27,9 +27,26 @@ Open the explainer in a browser if one is available and time a read of it. Cut u
 
 ## 4. Stop
 
-Write both artefacts and stop. Say what you wrote, then ask the human for two approvals, with the files attached:
+Write both artefacts and stop. Say what you wrote, then present two checkpoints with the files attached. Both must be approved before the page is built; nothing else waits on this phase.
 
-- **The explainer.** Does the picture match how they understand their own app? Any door they would name differently, any end state missing, any arrow pointing the wrong way, goes back into the explainer now, because this picture is what every later finding will be read against.
-- **The canvas.** Approve the page brief as the design to build, or name what to change. Point out any token you had to invent because neither a design system nor the app's own styles defined it, so they can supply the real one.
+### Checkpoint: d1.explainer
+Evidence: `.watchdog/explainer.html`. This picture is what every later finding will be read against, so any door they would name differently, any end state missing and any arrow pointing the wrong way goes back into it now.
 
-Both must be approved before the page is built; nothing else waits on this phase.
+---
+Does the picture match how you understand your own app?
+1. Approve as drawn
+2. Reject, with these changes (name the doors, end states or arrows; the explainer is redrawn)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 1 decision --id d1.explainer --outcome <approved|rejected> --answer "..." --by "<who>"`
+### Checkpoint: d1.canvas
+Evidence: `.watchdog/CANVAS.md`, with every token you had to invent called out because neither a design system nor the app's own styles defined it, so the human can supply the real one.
+
+---
+Is the page brief the design to build?
+1. Approve as written
+2. Approve, and use these tokens in place of the invented ones (name them)
+3. Reject, with these changes (the brief is rewritten)
+4. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 1 decision --id d1.canvas --outcome <approved|rejected> --answer "..." --by "<who>"`

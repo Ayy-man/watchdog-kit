@@ -48,4 +48,15 @@ A check that fires on today's healthy production state is a false alarm, not a f
 
 ## 5. Stop for adjudication
 
-Write `.watchdog/CHECKS.md` and `.watchdog/OBLIGATIONS.md` and stop. Say what you wrote: checks by cluster, incidents covered and not covered, the three eval results, and the live findings per check with their evidence attached. Then ask the human to adjudicate every live finding as correct, false alarm or unsure, because the rule from the contract is fixed: a real fault stays open with a named owner, only a confirmed false alarm changes a check, and every threshold change is logged under `## Adjudication` with the finding id that caused it and the old and new values. Put the obligation disagreements to them in the same message, each as "app bug or unwritten rule", since the answer changes either the check or the app.
+Write `.watchdog/CHECKS.md` and `.watchdog/OBLIGATIONS.md` and stop. Say what you wrote: checks by cluster, incidents covered and not covered, and the three eval results.
+
+### Checkpoint: d4.verdicts
+Evidence: the live findings per check in `.watchdog/CHECKS.md`, each with its evidence attached, and the obligation disagreements from `.watchdog/OBLIGATIONS.md`. The rule from the contract is fixed: a real fault stays open with a named owner, only a confirmed false alarm changes a check, and every threshold change is logged under `## Adjudication` with the finding id that caused it and the old and new values. Each obligation disagreement is answered as "app bug" or "unwritten rule", since the answer changes either the app or the check.
+
+---
+What is your verdict on each live finding (correct, false alarm or unsure) and each disagreement?
+1. Every finding and disagreement adjudicated (record the count)
+2. Some adjudicated, the rest still open (record the count; the bake-off and the eval wait)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 4 decision --id d4.verdicts --outcome answered --answer "..." --by "<who>"`

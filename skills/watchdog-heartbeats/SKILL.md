@@ -65,4 +65,15 @@ Write the forbidden-write test (`scripts/eval-forbidden-write.mjs`): connect as 
 
 ## 7. Write the artefact and stop
 
-Fill in the five sections of `.watchdog/HEARTBEATS.md` (the sweep route, its schedule and the self check go under `## Jobs`; the adapters and their tests under `## Doors`), run the parity eval, the contract drift eval, the adapter tests, the door evals and the forbidden-write test once more, and stop. Say what you wrote: jobs wrapped, jobs mapped from existing sources, jobs with no heartbeat, adapters written, doors checked with their status, the reader, the writer and the views created, and every eval's result. There is no decision for a human here unless something blocked you, most often the reader's login; if it did, say exactly what you need.
+Fill in the five sections of `.watchdog/HEARTBEATS.md` (the sweep route, its schedule and the self check go under `## Jobs`; the adapters and their tests under `## Doors`), run the parity eval, the contract drift eval, the adapter tests, the door evals and the forbidden-write test once more, and stop. Say what you wrote: jobs wrapped, jobs mapped from existing sources, jobs with no heartbeat, adapters written, doors checked with their status, the reader, the writer and the views created, and every eval's result. There is no checkpoint here unless something blocked you, most often the reader's login. If it did, record the phase as blocked with what you need, then present this one.
+
+### Checkpoint: d3.credential
+Evidence: `## Role` in `.watchdog/HEARTBEATS.md` and what the missing credential blocked. Name a variable, never a value.
+
+---
+Which environment variable holds the reader's connection?
+1. It is already set (give the variable name)
+2. I will set it now (give the variable name to read it from)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 3 decision --id d3.credential --outcome answered --answer "..." --by "<who>"`

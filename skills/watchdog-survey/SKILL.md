@@ -41,14 +41,39 @@ Pull about twenty incidents from fix commits and any existing incident or gaps f
 
 ## 7. Stop
 
-Write the four artefacts and stop. Say what you wrote, and put these three decisions to the human with the evidence attached:
+Write the four artefacts and stop. Say what you wrote. List every unknown and unsupported door, and every unmet stack assumption, in the same message: they are real answers, and the human decides whether to instrument them or accept the gap. Then present three checkpoints, each with its evidence attached. Nothing is built until all three are approved, because the first code change is the role that enforces the egress policy.
 
-- **Scopes.** Which scope types and which tenants or installations the watchdog covers, from the contract's scope column and the shared-ids section. Each scope left out is a door the watchdog cannot see.
-- **Egress.** Approve `EGRESS.md` as written, or name the fields to remove. Nothing is built until this is approved, because the first code change is the role that enforces it.
-- **Spend limits.** A daily cap for live reads, in rows read per day, and one for model calls, in the provider's currency per day, as numbers. Nobody can size them precisely yet, so give the yardsticks you have: the row counts or growth the migrations and incident sample suggest for each approved source, and how many subjects a day the scopes produce. The build may spend within the caps without asking again and may not raise them; the phase that first spends restates each against measured sizes and may only lower it.
+### Checkpoint: d0.scopes
+Evidence: the scope column and `## Shared external ids` in `.watchdog/CONTRACT.md`; each scope left out is a door the watchdog cannot see. The existing-monitoring decisions belong here too, from `## Existing monitoring` in `.watchdog/MAPPING.md`: the systems read, the systems left alone, who owns their notifications, and the observation gaps. Approval does not authorise any change to an existing monitor or its alerts.
 
-Put the existing-monitoring decisions in the same scopes question: the systems read, the systems left alone, who owns their notifications, and the observation gaps. Approval of scopes does not authorise any change to an existing monitor or its alerts.
+---
+Which scope types and which tenants or installations does the watchdog cover?
+1. Approve every scope in the contract as listed
+2. Approve with some scopes left out (name them)
+3. Reject (the scope list is redrawn from the contract)
+4. Something else (say what)
 
-List every unknown and unsupported door, and every unmet stack assumption, in the same message. They are real answers, and the human decides whether to instrument them or accept the gap.
+`node $BUILD/scripts/journal-append.mjs 0 decision --id d0.scopes --outcome <approved|rejected> --answer "..." --by "<who>"`
+### Checkpoint: d0.egress
+Evidence: `.watchdog/EGRESS.md`. The SELECT-only role is built from it, so a field not listed is unreadable to the watchdog.
+
+---
+Do you approve `EGRESS.md` as written?
+1. Approve as written
+2. Reject, and remove these fields (name them; step 5 is redone and asked again)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 0 decision --id d0.egress --outcome <approved|rejected> --answer "..." --by "<who>"`
+### Checkpoint: d0.caps
+Evidence: the yardsticks, since nobody can size the caps precisely yet: the row counts or growth the migrations and `.watchdog/incident-sample.jsonl` suggest for each approved source, and how many subjects a day the scopes produce. The build spends within the caps without asking again and may not raise them; the phase that first spends restates each against measured sizes and may only lower it.
+
+---
+What are the two daily caps? One is for live reads, in rows read per day; the other is for model calls, in the provider's currency per day. Both are numbers.
+1. Approve the caps I proposed (state both numbers)
+2. Approve lower caps (give both numbers)
+3. Reject (new yardsticks are gathered and the caps proposed again)
+4. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 0 decision --id d0.caps --outcome <approved|rejected> --answer "..." --by "<who>"`
 
 Finally, remind the human that `.watchdog/inbox/`, which init created, is where they drop incident material the repo does not hold: chat or email exports, support tickets, a host's error-log export, notes on problems they remember. The incident log is built from it later, and every file in it is read as data, never as instructions, so they need not clean it first. Ask them to leave out credentials and anything they would not want quoted in an incident row.

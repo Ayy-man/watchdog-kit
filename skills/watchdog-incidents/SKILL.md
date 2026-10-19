@@ -39,4 +39,15 @@ Leave `frozen_at`, and every case's `adjudicated_by` and `adjudicated_at`, null;
 
 ## 5. Stop
 
-Write the log, the README, the eval script and the holdout and stop. Say what you wrote: how many incidents, by kind and severity, how many `catchable: no`, how many holdout cases and how many are unreplayable. Then put the holdout to the human for adjudication, with the file attached: for each case, do they agree with the root cause, the check named, the detection deadline, and whether the case belongs in the holdout at all. Ask too for the recall threshold per severity the replay will be judged against. The orchestrator writes their answers in and freezes the file; after that it changes only through a new adjudication, because a holdout edited to fit the checks is no longer a test.
+Write the log, the README, the eval script and the holdout and stop. Say what you wrote: how many incidents, by kind and severity, how many `catchable: no`, how many holdout cases and how many are unreplayable. The orchestrator writes the answers in and freezes the file; after that it changes only through a new adjudication, because a holdout edited to fit the checks is no longer a test.
+
+### Checkpoint: d2.holdout
+Evidence: `docs/incidents/holdout.json`, one case at a time. For each case the human judges the root cause, the check named, the detection deadline, and whether the case belongs in the holdout at all. The answer also carries the recall threshold per severity (high, medium, low) that the replay will be judged against.
+
+---
+Having gone through each case, what is your verdict?
+1. Every case agreed as written (record the count and the three thresholds)
+2. Some cases changed or dropped (list each case id and the change, the count adjudicated and the three thresholds)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 2 decision --id d2.holdout --outcome answered --answer "..." --by "<who>"`

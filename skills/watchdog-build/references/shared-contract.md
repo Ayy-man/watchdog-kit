@@ -139,11 +139,53 @@ One JSON object per line, appended by `journal-append.mjs` and never edited in p
 { "phase": 0, "skill": "watchdog-survey",
   "started": "2026-10-19T09:00:00Z", "finished": "2026-10-19T11:20:00Z",
   "artefacts": [{ "path": ".watchdog/CONTRACT.md", "sha256": "ab12..." }],
-  "decisions": [{ "question": "Approve scopes, egress policy and spend limits?", "answer": "Yes; cap USD 20 a day", "by": "owner", "at": "2026-10-19T12:00:00Z" }],
+  "inputs": [{ "path": ".watchdog/CONTRACT.md", "sha256": "ab12..." }], "decisions_rev": "9f3e...",
+  "decisions": [{ "id": "d0.caps", "kind": "authorisation", "outcome": "approved", "answer": "USD 20 a day, 5000 rows a day", "by": "owner", "at": "2026-10-19T12:00:00Z", "pre": false }],
   "blocked": null }
 ```
 
-`blocked` is `null` or `{ "reason": "...", "needs": "..." }`. A phase is done only when `started` and `finished` are valid timestamps, `blocked` is null, the entry records every artefact the validator requires for that phase, every recorded artefact reads back from disk with the sha256 the entry holds (the read-back result), a phase with a human stop carries at least one decision with a non-empty answer, a `by` and a valid `at`, and the artefacts pass the content checks: required sections present and not empty, and no template placeholder such as `{client}` left outside a fenced code block. `scripts/journal-lib.mjs` is the one implementation of this rule; the validator and STATE.md both use it.
+The first line of the journal is a `meta` entry written by `init`: `{ "meta": true, "mode": "step", "kit_rev": "<git rev or core/VERSION>", "at": "..." }`; `--mode` appends another. `inputs` is captured at `started` from the upstream artefacts in the dependency table below, and `decisions_rev` with `decisions_read` record the decisions that existed at that moment; `finished` recomputes them, and a changed input or a changed or vanished decision fails the phase and names the earliest phase it invalidates. A decision recorded after `started` is not drift, which is what lets run-ahead mode build while approvals wait.
+
+### Decisions
+
+Every human stop is a decision with a fixed id, so a script can tell whether it has been made and a skill can ask for it by name. The catalogue:
+
+| id | phase | kind | outcome | may be answered early |
+|---|---|---|---|---|
+| `d0.scopes`, `d0.egress`, `d0.caps` | 0 | authorisation | approved or rejected | no: nothing reads production, a provider, host logs or an error tracker, and nothing spends, until all three are approved |
+| `d1.explainer`, `d1.canvas` | 1 | approval | approved or rejected | no; gates phase 6 |
+| `d2.holdout` | 2 | verdicts | answered (the count adjudicated) | no; gates phase 7 |
+| `d3.credential` | 3 | credential | answered (a variable name, never a value) | yes, and only when the phase asks |
+| `d4.verdicts` | 4 | verdicts | answered (the count adjudicated) | no; gates phase 5's bake-off and phase 7 |
+| `d5.key` | 5 | credential | answered (a variable name) | yes |
+| `d5.cap`, `d5.slots` | 5 | choice | answered | yes |
+| `d5.model` | 5 | choice | answered | yes, as "the bake-off winner", the one decision a rule may resolve, recorded `by: rule:d5.model` from the EVAL numbers |
+| `d7.eval` | 7 | authorisation | approved or rejected | no: it approves the concrete reads, writes and cost table the phase presents |
+| `d7.merge` | 7 | authorisation | approved or rejected | no, and recording it never merges; the merge is the human's act |
+| `d8.deployed` | 8 | credential | answered (the deployed revision) | no; phase 8 cannot start without it |
+
+An authorisation or approval counts only as `approved` with a human `by`; `rejected` is recorded and sends the phase back. Verdicts are human: a `by` starting `rule:` is invalid on every id but `d5.model`. A decision answered before its phase ran carries `pre: true` and is valid only on the ids marked above.
+
+### Dependencies and parallel phases
+
+| Phase | Needs artefacts from | Needs decisions | Writes |
+|---|---|---|---|
+| 1 explain | 0 | `d0.*` | `.watchdog/explainer.html`, `.watchdog/CANVAS.md` |
+| 2 incidents | 0 | `d0.*` | `.watchdog/incident-shards/`, `docs/incidents/`, `scripts/eval-incidents-schema.mjs` |
+| 3 heartbeats | 0 | `d0.*` | `lib/watchdog/` core, db and jobs, migrations, the package manifest and lockfile |
+| 4 checks | 2, 3 | `d0.*` | `lib/watchdog/checks/`, `.watchdog/OBLIGATIONS.md`, `.watchdog/CHECKS.md`, check evals |
+| 5 review | 4 | `d0.*`; `d4.verdicts` before the bake-off; `d5.key`, else the checks raise `model_unavailable` | `lib/watchdog/review/`, `.watchdog/REVIEW.md`, the bake-off section of `EVAL.md` |
+| 6 page | 4, 5 | `d0.*`, `d1.explainer`, `d1.canvas` | the page route, `.watchdog/PAGE.md` |
+| 7 eval | 2, 4, 5, 6 | `d0.*`, `d2.holdout`, `d4.verdicts`, `d7.eval` | `.watchdog/EVAL.md`, `REPORT.md` |
+| 8 prove | 7 and the human's deploy | `d7.merge` recorded | `.watchdog/REPORT.md` |
+
+Two upstream files are read but not hashed as inputs, because the human writes adjudication into them after the next phase has started: phase 4 does not hash the holdout, and phase 5 does not hash `CHECKS.md`. Phases whose artefact inputs are all finished and whose write sets are disjoint may run at the same time as separate subagents: 1, 2 and 3 once phase 0 is approved. The orchestrator is the only journal writer. A phase whose decisions are pending but whose artefact inputs exist may build in run-ahead mode (4 after 2 and 3) and waits only where the table says a decision gates it (6 waits for `d1.*`).
+
+### Modes
+
+`mode` is `step` (stop and ask at every checkpoint) or `run-ahead` (answer now what may be answered early, build everything whose artefact inputs exist, queue every other decision and list them in phase order on `--status`). The mode changes when questions are asked, never which decisions exist or who makes them.
+
+`blocked` is `null` or `{ "reason": "...", "needs": "..." }`. A phase is done only when `started` and `finished` are valid timestamps, `blocked` is null, the entry records every artefact the validator requires for that phase, every recorded artefact reads back from disk with the sha256 the entry holds (the read-back result), the inputs and the other phases' decisions it read at `started` are unchanged, every decision id the catalogue gives the phase (`d3.credential` only once asked) has a valid latest entry with outcome `approved` or `answered`, a non-empty answer, a human `by` and a valid `at`, and the artefacts pass the content checks: required sections present and not empty, and no template placeholder such as `{client}` left outside a fenced code block. A `rejected` outcome reads "sent back: <id> rejected"; an unknown id, a missing outcome, an id-less decision on a phase with catalogue ids, or `pre: true` on an id that may not be answered early is invalid. `scripts/journal-lib.mjs` is the one implementation of this rule; the validator and STATE.md both use it, and the validator lists every failure with its fix.
 
 ## Gates
 

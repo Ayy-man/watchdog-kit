@@ -9,7 +9,19 @@ You are measuring the watchdog against its own incident history and against the 
 
 ## 1. Lay out the plan and its cost, then wait
 
-Before running anything, write the plan as a table in `.watchdog/EVAL.md` (template `$KIT/templates/EVAL.md`) under `## Plan`: each run, what it reads, what it writes, which key it uses, how many model calls at what packet size, the estimated cost in the provider's currency, and the wall time. The replay is free; the bake-off re-run is this phase's model spend, on top of what phase 5 already counted against the cap; the live dry runs read production on the SELECT-only role within the read cap. Present the table to the human and ask for authorisation to run it. Wait. Nothing below runs on silence, because the bake-off spends real money and the dry runs read real data.
+Before running anything, write the plan as a table in `.watchdog/EVAL.md` (template `$KIT/templates/EVAL.md`) under `## Plan`: each run, what it reads, what it writes, which key it uses, how many model calls at what packet size, the estimated cost in the provider's currency, and the wall time. The replay is free; the bake-off re-run is this phase's model spend, on top of what phase 5 already counted against the cap; the live dry runs read production on the SELECT-only role within the read cap. Then present the checkpoint below and wait. Nothing below runs on silence, because the bake-off spends real money and the dry runs read real data.
+
+### Checkpoint: d7.eval
+Evidence: `## Plan` in `.watchdog/EVAL.md`, with the concrete reads, writes and cost table, beside the spend caps in the journal. Approving authorises exactly what the table lists.
+
+---
+Do you authorise these runs?
+1. Approve the plan as written
+2. Approve with fewer runs or a lower cap (say which)
+3. Reject (the plan is rewritten)
+4. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 7 decision --id d7.eval --outcome <approved|rejected> --answer "..." --by "<who>"`
 
 ## 2. Replay the holdout
 
@@ -39,4 +51,15 @@ Replace the plan's placeholder values with a table under `## Gates`: one row per
 
 ## 7. Stop
 
-Write `.watchdog/EVAL.md` and stop. Say what ran, what it cost against the cap, and the gate table. Then ask the human to authorise the merge of the watchdog branch into the client's main branch, with the gate table attached and the failing or unmeasured gates named first, because merging on a red gate is their call to make with the reason written down.
+Write `.watchdog/EVAL.md` and stop. Say what ran, what it cost against the cap, and the gate table. Name the failing or unmeasured gates first.
+
+### Checkpoint: d7.merge
+Evidence: the gate table in `.watchdog/EVAL.md`. Merging on a red gate is the human's call, made with the reason written down in the answer. Recording this never merges; the merge is the human's act.
+
+---
+Do you authorise merging the watchdog branch into the client's main branch?
+1. Approve (name any red or unmeasured gate you are accepting, and why)
+2. Reject (say which gate to fix first)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 7 decision --id d7.merge --outcome <approved|rejected> --answer "..." --by "<who>"`

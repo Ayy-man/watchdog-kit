@@ -31,13 +31,52 @@ Look up current pricing and benchmarks for long-context structured-output models
 
 ## 5. Stop for the key, then bake off, counting every case
 
-No paid call is made before this stop. Present the shortlist with the estimated cost of the bake-off at the observed packet sizes beside the model cap phase 0 approved, in the provider's currency per day, then ask for the watchdog-only API key (set as the named variable where the bake-off runs, never pasted into chat) and for confirmation of that cap, which the human may keep or lower but not raise; the journal records the key's variable name and the confirmed cap. Resume only when the journal holds them.
+No paid call is made before these two checkpoints. Present the shortlist with the estimated cost of the bake-off at the observed packet sizes beside the model cap phase 0 approved, in the provider's currency per day. Resume only when the journal holds both answers.
+
+### Checkpoint: d5.key
+Evidence: `## Models` in `.watchdog/REVIEW.md`. The key is the watchdog-only API key, set as a named variable where the bake-off runs and never pasted into chat; the journal records the variable name, not the key.
+
+---
+Which variable holds the watchdog-only key?
+1. It is set (give the variable name)
+2. Not yet; the bake-off waits and the checks raise `model_unavailable` meanwhile
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 5 decision --id d5.key --outcome answered --answer "..." --by "<who>"`
+### Checkpoint: d5.cap
+Evidence: the bake-off cost estimate against the cap from `d0.caps`. Where a price in `## Models` is `unverified`, the human confirms it here before the cap is sized from it. The cap may be kept or lowered, not raised.
+
+---
+What is the daily model cap, in the provider's currency?
+1. Keep the cap phase 0 approved (state the figure)
+2. Lower it (give the figure)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 5 decision --id d5.cap --outcome answered --answer "..." --by "<who>"`
 
 Build three case sets: planted scenarios (a healthy packet with one fault inserted, one per taxonomy cluster), held-out real packets from the live dry run's findings with their human verdicts, and healthy traffic (packets with no known fault). Run each model on every case within the journal's cap, through the grounding code, and count every case: raised and grounded, raised and rejected, missed, false alarm on healthy, cost and latency. No case is dropped or re-rolled out of the tally; a run that errors is an error in the table. Record the whole table under `## Bake-off` with the cost of the bake-off itself.
 
 ## 6. Stop
 
-Write `.watchdog/REVIEW.md` with its six sections and stop. Say what you wrote, then ask the human for, in this order:
+Write `.watchdog/REVIEW.md` with its six sections and stop. Say what you wrote. The key from `d5.key` must now be set as that variable in the deployment, with the spend cap applied at the provider if it supports one, because nothing model-backed runs in production without it. Then present two checkpoints.
 
-- **The deployed key.** The watchdog-only key from step 5, now set as the named variable in the deployment, with the spend cap applied at the provider if it supports one. Nothing model-backed runs in production without it.
-- **The model and the slots.** From the bake-off table: which model, and which slots, with what each choice costs per day at the observed packet sizes. Say which model you would pick and why, with the numbers beside it, and give them the settings change from `## Slots` to apply, since the slots row is theirs to create.
+### Checkpoint: d5.model
+Evidence: the table under `## Bake-off` in `.watchdog/REVIEW.md`, with each model's cost per day at the observed packet sizes. Say which model you would pick and why, with the numbers beside it.
+
+---
+Which model does the watchdog use?
+1. <the model you recommend> (recommended; its numbers)
+2. <the runner-up> (its numbers; or the third shortlisted model)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 5 decision --id d5.model --outcome answered --answer "..." --by "<who>"`
+### Checkpoint: d5.slots
+Evidence: `## Slots` in `.watchdog/REVIEW.md`, with what each choice costs per day. Give the human the settings change from `## Slots` to apply, since the slots row is theirs to create.
+
+---
+Which review slots run?
+1. The slots proposed in `## Slots` (times and cost per day)
+2. Fewer slots (name them and the cost per day)
+3. Something else (say what)
+
+`node $BUILD/scripts/journal-append.mjs 5 decision --id d5.slots --outcome answered --answer "..." --by "<who>"`

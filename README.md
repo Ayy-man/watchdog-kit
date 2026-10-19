@@ -25,9 +25,20 @@ node scripts/install.mjs --all --yes    # symlinks skills and agents into Claude
 
 The default install symlinks, so moving or deleting the checkout breaks it; add `--copy` for a copy that stands alone, and `--uninstall --yes` removes exactly what an earlier run created.
 
+Re-running a `--copy` install refreshes files you have not touched since install and reports, but keeps, any file you edited. `node scripts/install.mjs --check` changes nothing and exits 1 on any problem with an earlier install (ledger, missing paths, `$KIT`, stale or edited copies, Codex mirrors), one line per problem with its fix.
+
 As a Claude Code plugin: `/plugin marketplace add Ayy-man/watchdog-kit`, then `/plugin install watchdog-kit@watchdog-kit-local`.
 
 Next, in a client repo, run the build skill: `/watchdog-build` after a user install, `/watchdog-kit:watchdog-build` after a plugin install, or `$watchdog-build` in Codex. It starts at the survey and resumes from `.watchdog/` when a build is already under way.
+
+## Two ways to work
+
+The build has nine phases and stops for a human at most of them. On the first run it asks which way you want to work, and the answer changes when it asks, never who decides.
+
+- **Step by step** (default): it stops and asks at every checkpoint. For when you are at the keyboard.
+- **Run ahead**: you answer up front what can be answered up front (the model key's variable name, the spend cap, the review slot times, which model to keep after the bake-off), and it builds everything whose inputs exist while queueing the questions that need you. `--status` lists the queue in order when you come back, and you answer it in one sitting. Independent phases (the explainer, the incident history, the heartbeats) run at the same time once the survey is approved.
+
+Run ahead does not remove the stops that are yours by nature. Three things wait for a human in both modes: approving the survey before anything reads production or spends, judging the findings, and the merge. Expect about five touchpoints in run-ahead mode instead of nine.
 
 ## Layout
 
