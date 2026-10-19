@@ -1,0 +1,41 @@
+{
+  "name": "watchdog-kit",
+  "version": "0.2.1",
+  "description": "Builds a report-only production watchdog for the app in the current repo: a doors contract, deterministic checks, a grounded model review, a findings page with human verdicts, and an eval against the client's own incident history. User-invoked only; never deploys.",
+  "author": {
+    "name": "Ayman Baig"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "watchdog",
+    "monitoring",
+    "report-only",
+    "production",
+    "incidents"
+  ],
+  "skills": "./skills/",
+  "hooks": {},
+  "interface": {
+    "displayName": "Watchdog Kit",
+    "shortDescription": "Build a report-only production watchdog for the app in this repo",
+    "longDescription": "Run /watchdog-build in a client repo. The kit surveys the app's doors (webhooks, provider calls, crons), writes a contract a human approves, then builds deterministic checks on a SELECT-only role, a grounded model review, a findings page with human verdicts, and an eval against the client's own incident history. It reports; it never sends, never deploys and never reads .env values.",
+    "developerName": "Ayman Baig",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Run $watchdog-build --status in this repo.",
+      "Run $watchdog-build to start the watchdog survey for this app."
+    ],
+    "screenshots": []
+  },
+  "agents": [
+    "./codex/agents/check-writer.toml",
+    "./codex/agents/door-adapter-writer.toml",
+    "./codex/agents/incident-miner.toml",
+    "./codex/agents/verifier.toml"
+  ]
+}

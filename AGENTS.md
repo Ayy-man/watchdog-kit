@@ -1,0 +1,17 @@
+# Watchdog Kit: notes for agents
+
+The entry point is the `watchdog-build` skill (`skills/watchdog-build/SKILL.md`). It is the orchestrator and the only file that knows the phase order; every phase skill under `skills/` is written without knowledge of what follows it, and you do not pass it hints. Invoke it in a client repo with `/watchdog-build` in Claude Code or `$watchdog-build` in Codex; a phase skill is loaded by reading its `SKILL.md`, so nothing depends on one agent's skill tool. It resumes from `.watchdog/` when a build is already under way.
+
+The vocabulary lives in `README.md`. Those words mean one thing each, everywhere in this repo and in every prompt it generates; use them as defined and do not coin synonyms.
+
+The contracts every adapter and check must satisfy are in `core/contracts/` (`door.d.ts`, `finding.d.ts`). Start there before writing code against the core.
+
+## Rules
+
+- **User-invoked only.** A human runs the build and a human answers each stop. Claude Code enforces this with `disable-model-invocation: true` on the build skill, and Codex with `policy.allow_implicit_invocation: false` in `skills/watchdog-build/agents/openai.yaml`; neither host blocks a model from reading a phase skill, so each phase skill says it is not for use on its own.
+- **Report-only.** The watchdog reads app data through a SELECT-only role; writes only the watchdog's own tables through a separate writer (findings, sweeps, job runs, reviews, silences, alert sends). A forbidden write is a test that must fail, never a feature. At report-only the deployed watchdog holds no credential or grant it could send with: no message to a customer, a partner, a staff member, a provider or an owner, and no post to a hub. Report-and-tell adds a separately provisioned alert sender behind its own gates (see the shared contract); it is never reached by flipping a setting.
+- **Never deploy.** Pushing the client's main branch is the human's act in every client this kit has been built for. Phase 7 ends with a merge authorisation, not a push.
+- **Never read `.env` values.** The survey records variable names only. Do not `cat`, `source` or print any `.env*` file, and do not echo secrets from the process environment.
+- **No test data in production.** A dry run reads app data and inserts nothing into the app's tables. The live dry run does write the watchdog's own tables, through the writer, because recording findings and the sweep receipt is what it is for; it never sends.
+
+Layout, including where the Claude subagents (`agents/`) and their Codex TOML mirrors (`codex/agents/`) live, is in `README.md`. Install with `node scripts/install.mjs --all --yes` (the supported stacks and the plugin route are in `README.md`); vendor the core into a client with `node scripts/vendor-core.mjs <client repo>`.

@@ -1,0 +1,17 @@
+{
+  "name": "watchdog-kit-local",
+  "description": "Local marketplace for the watchdog kit checkout. Add it with: /plugin marketplace add <path or owner/repo>, then /plugin install watchdog-kit@watchdog-kit-local",
+  "owner": {
+    "name": "Ayman Baig"
+  },
+  "plugins": [
+    {
+      "name": "watchdog-kit",
+      "description": "Builds a report-only production watchdog for the app in the current repo, phase by phase, from the doors contract through to a proven deployed sweep.",
+      "version": "0.2.1",
+      "source": "./",
+      "category": "Operations",
+      "tags": ["watchdog", "monitoring", "report-only"]
+    }
+  ]
+}
