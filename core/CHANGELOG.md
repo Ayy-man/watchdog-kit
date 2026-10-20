@@ -1,5 +1,13 @@
 # core changelog
 
+## 0.2.2 (20 Oct 2026)
+
+Contract and skill changes from the reference build's first full live day (76 findings, most of them noise). No core module changes shape.
+
+- Invariant **only what can still be acted on**: a finished subject leaves every review packet when its end instant passes; post-end obligations are rule checks.
+- Invariant **one problem, one finding**: model reviews refuse rule-owned kinds; the broad review refuses what a subject review covers or what sits on a finished subject; dropped answers stay on the review row and in the receipt, never as findings.
+- `watchdog-review` skill, `prompt-rules.md` and the `REVIEW.md` template carry both, with a required test that a subject which ended earlier today is out.
+
 ## 0.2.1 (19 Oct 2026)
 
 - `run.js` check validation: two checks may share one own table (the reviews table is keyed on check id). The first client's two model checks both write `watchdog_reviews` and 0.2.0 refused the whole list. Kit tables and read tables are still refused.

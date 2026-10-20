@@ -10,13 +10,15 @@ One row per approved subject type.
 |---|---|---|---|---|
 | `{conversation}` | {conversation} | {messages in and out, appointments} | {due instants, overdue flags, already-done flags} | {first names, opaque ids} |
 
+Finished subjects excluded: {how each subject's end instant is computed, and the test that a subject ended earlier today is out}.
+
 Serialisation: {compact JSON}. Hash covers stable facts only: {list what is excluded, such as now and relative wording}.
 
 ## Grounding
 
 Code holds the model's answer to the packet. {Resolve every ref, match every quote, confidence floor, text with email or phone dropped, timing findings accepted only where the derived line says overdue, finding id built from the evidence entities.}
 
-Prompt policy version: {prompt@YYYY-MM-DD}. Rejected findings are counted in one `rejected` system finding per subject: {confirm}.
+Prompt policy version: {prompt@YYYY-MM-DD}. Dropped answers stay on the review row and in the receipt, never as findings: {confirm}. Rule-owned kinds refused: {the RULE_OWNED_KINDS map}. Broad review refuses what a subject review covers: {the rule}.
 
 ## Slots
 

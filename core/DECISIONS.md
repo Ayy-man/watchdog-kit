@@ -162,6 +162,18 @@ Rejected: refusing legacy-shaped checks. Vendoring into an existing client shoul
 
 The contract has both `coverage.complete` and `result.partial`. The core treats `partial` as one more reason the coverage is incomplete and records its reason on the receipt; `resolutionDecision` reports `partial` before `incomplete` so the receipt says what happened.
 
+## A finished subject is out of review, not down-weighted (0.2.2)
+
+The reference build's tour review looked 14 days back so a tour stayed in for its post-tour send, and its first full day raised 76 findings, about a third of them about tours that had already run ("venues were told 8 guests and 7 came", "a sandwich mix-up on 10 Oct"). None could be acted on. Review now covers only subjects whose end instant has not passed, and the follow-up owed after an end is a rule check on that obligation.
+
+Rejected: keeping a short look-back (2 days) for post-tour work. It still produced retrospectives, and the obligation it was there for already had a rule check. Rejected: ranking past-subject findings lower. A card nobody can act on costs the operator the same attention at any severity.
+
+## Dropped model answers are not findings (0.2.2)
+
+The reference build showed one low "review dropped N findings" card per subject. On its first live day that was six cards of the watchdog's own working. Dropped answers are kept on the review row and counted in the receipt, where the trace and the eval read them.
+
+Rejected: keeping the card at low severity. The verdict buttons on it measure nothing about the client's operation.
+
 ## Severity, kind and subject type are open strings
 
 `severity` is checked against `high | medium | low`. `kind` and `subject.type` are any non-empty string: the client's kind enum is enforced where the model's answer is checked (`normaliseKind`), not at the sweep, because a rule check's kinds are its own code.
