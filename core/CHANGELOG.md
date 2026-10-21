@@ -1,5 +1,13 @@
 # core changelog
 
+## 0.2.3 (21 Oct 2026)
+
+Contract and skill changes from the reference build's finding cards, which showed packet paths, UUIDs and sweep bookkeeping where an operator needed names. No core module changes shape.
+
+- Invariant **a card reads in ten seconds, plain by default**: context line naming the subject, plain fact rows, a page-level dev mode for refs, quotes, ids and the trace.
+- `watchdog-review` stores `evidence.labels` built in code from the packet, and the subject's name and date, on every model finding.
+- `watchdog-page`, `page-anatomy.md` and the `CANVAS.md` template carry both modes; the page-model eval checks that no plain row's value is an id.
+
 ## 0.2.2 (20 Oct 2026)
 
 Contract and skill changes from the reference build's first full live day (76 findings, most of them noise). No core module changes shape.

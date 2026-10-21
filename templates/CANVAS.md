@@ -20,7 +20,7 @@ One row per part of the page, mapped onto this client's design.
 |---|---|---|---|
 | {title with receipt line} | {last sweep, coverage} | | {fresh, stale} |
 | {uptime strip} | {sweeps over the last days} | | {healthy, missed, errored} |
-| {finding card} | {evidence rows, folded would-do and would-say} | {conversation, order, ...} | {unjudged, each verdict, stale verdict, back again} |
+| {finding card} | {context line naming the subject, plain fact rows, folded would-do and would-say; dev mode adds refs, quotes, ids, trace} | {conversation, order, ...} | {unjudged, each verdict, stale verdict, back again} |
 | {checks rail} | {per-check scoreboard, recent sweeps} | | {errored, unknown door} |
 
 ## Keyboard path

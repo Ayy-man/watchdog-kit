@@ -174,6 +174,12 @@ The reference build showed one low "review dropped N findings" card per subject.
 
 Rejected: keeping the card at low severity. The verdict buttons on it measure nothing about the client's operation.
 
+## Plain cards, dev mode one switch away (0.2.3)
+
+The reference build's cards printed each model ref against its quote (`stops[1].seat_time` 17:30, `comms[2].vars.arrival_time` 4:45pm) and every key a rule check stored, ids included. The operator could not say which venue a time belonged to, so nobody gave verdicts (one in 121 findings). Labels are built in code from the packet when the finding is written, and the raw view moved behind a dev mode switch rather than being deleted, because the engineer judging a false alarm needs the exact ref and quote.
+
+Rejected: asking the model to write labels. Code cannot check a label against the packet the way it checks a quote, and a wrong venue name on a card is worse than a path. Rejected: a per-check card template. One hidden-keys list and one key-to-words map covered all 22 of the reference build's rule checks.
+
 ## Severity, kind and subject type are open strings
 
 `severity` is checked against `high | medium | low`. `kind` and `subject.type` are any non-empty string: the client's kind enum is enforced where the model's answer is checked (`normaliseKind`), not at the sweep, because a rule check's kinds are its own code.

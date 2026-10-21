@@ -14,13 +14,15 @@ One bucket per sweep slot across the last day or two, oldest first, newest on th
 
 The main column. Tabs filter by state: open, to review (no verdict, or a stale verdict), judged, resolved. Each card carries:
 
+- the severity chip and a context line naming the subject as the operator knows it, with its date and how far off it is ("Private Leeds Hidden Gems · Thu 29 Oct (in 8 days)");
 - the title in the display face, at most 90 characters, naming the subject;
-- severity and check id as small chips, with the subject type and a link to the subject in the app;
 - a detail paragraph: what is wrong, how the check can tell, what happens if nobody acts;
-- evidence rows: one row per EvidenceRef, source, id, field and value, with timestamps rendered in the client's zone and ages ("3 hours ago") computed at render time;
-- "seen" words: first seen, last seen, how many sweeps it has been seen in, and reopened count;
+- fact rows under plain labels: a model finding's cited values under the labels stored with it ("Venue request to Neon Cactus: arrival time asked for", 16:45), a rule finding's actionable facts with ids and bookkeeping hidden, times on one clock in the client's zone, money and durations formatted, ages computed at render time;
+- a link to the subject in the app;
 - a hidden plan: "What it would do" and "What it would say", folded by default behind a disclosure, so the inert action and the exact words are reviewable but do not read as something that happened;
 - the verdict row.
+
+A page-level **Dev mode** switch (remembered per viewer, off by default) adds what an engineer needs and an operator does not: the check id and "seen" words (first seen, last seen, sweeps, reopened count), model and confidence, each exact ref against its exact quote, every stored evidence key under its own name, the model's "also checked, and fine" notes, the keyboard hint and the trace link.
 
 System findings (check_error, model_error, model_unavailable, rejected, packet_error) use a quieter card and are kept out of the precision numbers, because they are the watchdog reporting on itself.
 
