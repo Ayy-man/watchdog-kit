@@ -19,7 +19,7 @@ One row per part of the page, mapped onto this client's design.
 | Part | What it shows | Subject types it links to | States covered |
 |---|---|---|---|
 | {title with receipt line} | {last sweep, coverage} | | {fresh, stale} |
-| {uptime strip} | {sweeps over the last days} | | {healthy, missed, errored} |
+| {uptime strip} | {sweeps over the last days as one-height status bars, new-finding counts above, open trend in words} | | {healthy, missed, errored} |
 | {finding card} | {context line naming the subject, plain fact rows, folded would-do and would-say; dev mode adds refs, quotes, ids, trace} | {conversation, order, ...} | {unjudged, each verdict, stale verdict, back again} |
 | {checks rail} | {per-check scoreboard, recent sweeps} | | {errored, unknown door} |
 

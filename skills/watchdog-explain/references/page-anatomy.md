@@ -8,7 +8,7 @@ The title, then a folded line under it: "Last sweep 07:31, 21 checks, 3 open, 2 
 
 ## Uptime strip
 
-One bucket per sweep slot across the last day or two, oldest first, newest on the right: a short bar whose height is open findings and whose colour says whether the sweep ran, errored, or was missed. A missed slot is a gap, not a zero bar, because a watchdog that silently stops running is the failure it exists to catch. Under it, a one-line summary: sweeps in the window, missed, errored.
+One bucket per sweep slot across the last day or two, oldest first, newest on the right: bars of one height whose colour says whether the sweep ran, a check failed, or it did not run, with the number of new findings ("+9") written above any slot that raised some. Height carries no number: open findings move by a few on a base of dozens, so a zero-based height reads as flat (the reference build's strip showed 61 to 69 as identical bars). The numbers go in words beside the headline instead: "48 of 48 clean · 69 open, up 8 in 24 hours · 19 new". A missed slot is its own colour, never a short or empty bar, because a watchdog that silently stops running is the failure it exists to catch. The legend lists only states that occurred in the window. The precision row under it says what it counts ("judged 0 of 108 findings": every finding ever raised, open or resolved, the watchdog's own errors left out), because its total never matches the open count and an unexplained mismatch reads as a bug.
 
 ## Finding cards
 

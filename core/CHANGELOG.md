@@ -7,6 +7,7 @@ Contract and skill changes from the reference build's finding cards, which showe
 - Invariant **a card reads in ten seconds, plain by default**: context line naming the subject, plain fact rows, a page-level dev mode for refs, quotes, ids and the trace.
 - `watchdog-review` stores `evidence.labels` built in code from the packet, and the subject's name and date, on every model finding.
 - `watchdog-page`, `page-anatomy.md` and the `CANVAS.md` template carry both modes; the page-model eval checks that no plain row's value is an id.
+- Uptime strip: bars of one height coloured by sweep outcome, new-finding counts above, the open trend in words; legend only for states that occurred; the precision row says what its total counts.
 
 ## 0.2.2 (20 Oct 2026)
 
