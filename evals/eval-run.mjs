@@ -57,7 +57,7 @@ function fakeCheck(id, state, { severity = 'high', model = false, type = 'bookin
         link: `#/bookings/${s}`,
         wouldDo: 'Raise "Booking is on no tour"',
         wouldSay: null,
-        evidence: [{ source: 'bookings', id: s, field: 'tour_id', value: null }, { source: 'label', id: s, value: state.label ?? 'v1' }],
+        evidence: [{ source: 'bookings', id: s, field: 'tour_id', value: null, label: 'Booking: tour' }, { source: 'label', id: s, value: state.label ?? 'v1' }],
         evidenceAt: state.evidenceAt ?? null,
       }));
       return state.returnPartial ? { findings, partial: state.returnPartial } : findings;
@@ -99,7 +99,7 @@ await check('sweep 1: every finding is new and open, under a scoped id', async (
   assert.equal(b1.reopened_count, 0);
   assert.equal(b1.resolved_at, null);
   assert.equal(b1.last_generation, 1);
-  assert.deepEqual(b1.evidence, [{ source: 'bookings', id: 'b1', field: 'tour_id', value: null }, { source: 'label', id: 'b1', value: 'v1' }]);
+  assert.deepEqual(b1.evidence, [{ source: 'bookings', id: 'b1', field: 'tour_id', label: 'Booking: tour', value: null }, { source: 'label', id: 'b1', value: 'v1' }], 'a display label survives normalisation');
   assert.deepEqual(b1.meta, { evidence_defaulted: true }, 'no evidenceAt given, so the stored evidence time is the sweep\'s, and says so');
   assert.equal(b1.last_run_id, out.runId);
 });

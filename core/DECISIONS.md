@@ -174,6 +174,10 @@ The reference build showed one low "review dropped N findings" card per subject.
 
 Rejected: keeping the card at low severity. The verdict buttons on it measure nothing about the client's operation.
 
+## Grouped cards are allowed only for one fix and one verdict meaning (0.2.5)
+
+The review that produced 0.2.5 asked for one finding per provider account in the reference build's "Stripe charges have no venue" card, so each account gets its own verdict. Kept as one card: every member needs the same act (name its venue), and "Correct" means the same for each. The card lists every account with its own state and membership is in the fingerprint, so an account joining or clearing re-queues it. Where members need different acts, or a verdict could be right for one and wrong for another, they stay separate findings.
+
 ## Imported rows are excluded by one helper, not by an age cut-off (0.2.4)
 
 The reference build's operator asked whether findings older than two weeks should be hidden. Age was a symptom: the old findings were imported workbook bookings read as new, and the oldest real finding (a voucher unposted for 63 days) is the one most worth seeing. Imports are recognised by what they are (an id prefix, a marker), recorded at survey, and excluded per obligation.

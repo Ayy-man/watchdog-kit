@@ -161,6 +161,7 @@ function normaliseEvidence(evidence) {
       source: text(e.source, 120),
       id: text(e.id, 200),
       ...(e.field != null ? { field: text(e.field, 120) } : {}),
+      ...(e.label != null ? { label: text(e.label, 160) } : {}),
       ...(e.value !== undefined ? { value: typeof e.value === 'object' && e.value !== null ? safeJson(e.value, null) : (typeof e.value === 'string' ? text(e.value, 2000) : e.value) } : {}),
     }))
     .slice(0, 200);

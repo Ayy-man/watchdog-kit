@@ -38,6 +38,8 @@ export function isSystemFinding(finding) {
 const VOLATILE_KEYS = new Set([
   VERDICT_CONTEXT_KEY, 'resolved_reason', 'resolved_note', 'resolved_run_id', 'resolved_generation', 'ok_notes', 'packet_hash', 'model_slug',
   'reviewed_at', 'confidence', 'corrected_refs', 'latency_ms', 'slug',
+  // A display label is rebuilt from the packet each sweep; rewording it is not a new finding (0.2.5).
+  'label', 'labels',
 ]);
 /**
  * Field names that only move with the clock, matched as whole words: an

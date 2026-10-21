@@ -41,6 +41,10 @@ Run one sweep against production through the reader and the writer, and record t
 
 Run `scripts/eval-forbidden-write.mjs` as the SELECT-only role: an insert into an app table, an update, an rpc or stored-procedure call where the database exposes one, and a select on an unapproved column. Each must fail. Record the exact error for each, because the gate is that the failure happens, not that the code promises it.
 
+## 4a. Refusal and dedup cases
+
+Every refusal is a place a real fault can vanish, so each one is proven in both directions before merge, and `EVAL.md` lists each case with its result: an alert-only finding refused and a finding that an alert is wrong kept; a rule-owned kind refused inside the rule's coverage and kept for each excluded category; a waived obligation silent on an imported row and a still-owed obligation firing on one; a same-channel reply after the send clearing a delivery finding and an other-channel, earlier or other-recipient reply not clearing it; a stored review replayed after a refusal changed; an id transition carrying a verdict; a grouped card re-queued when a member joins or leaves; a developer-owned finding out of the operator's precision and an operational broad-review finding in it. A missing case is a failing gate line, not a note.
+
 ## 5a. Precision per check
 
 From every verdict given so far (the phase 4 adjudication and any since), compute precision per check and per model prompt version: correct over correct plus false alarm, with unsure shown beside it, never folded in. Write the table under `## Precision per check` in `EVAL.md`. A check below the floor the human set at adjudication (default 0.7, recorded in the journal) is listed with a proposed action, retune with the evidence that misled it or mute until a date, as a question for the human at the stop; the eval never applies either. A check with fewer than five verdicts shows "too few verdicts" rather than a figure, because a precision of 1.0 on two cases is not a measurement.

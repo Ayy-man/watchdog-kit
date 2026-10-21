@@ -67,6 +67,12 @@ export interface EvidenceRef {
   id: string;
   field?: string;
   value?: string | number | boolean | null;
+  /**
+   * The plain label a card shows for this fact ('Neon Cactus: seat time'),
+   * built in code from what the check or review read, never written by a
+   * model. Display only: not part of the finding id or the verdict fingerprint.
+   */
+  label?: string;
 }
 
 /** What an event owes. Written from the obligation table, not from the sender's predicates. */

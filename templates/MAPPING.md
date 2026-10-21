@@ -21,11 +21,11 @@ Written by the survey phase from code and migrations only; nothing verified agai
 
 ## Imported history
 
-One row per migration, import or backfill that created rows the checks read. Their obligations at creation were met in the old system, so every check excludes them through one helper (`lib/watchdog/migrated.js`). If none was found, say what was inspected.
+One row per migration, import or backfill that created rows the checks read. A check excludes imported rows only from the obligations listed as waived, through one helper (`lib/watchdog/migrated.js`); every other obligation still applies to them. If none was found, say what was inspected.
 
-| Table | How to recognise an imported row | Imported on | Met outside the app |
-|---|---|---|---|
-| {bookings} | {id prefix `b_mig` / a marker column / a notes marker; prefer the most stable} | {date} | {deposit, invoice, confirmation, payment} |
+| Table | How to recognise an imported row | Imported on | Waived (met in the old system) | Still owed after the import | Source of the waiver |
+|---|---|---|---|---|---|
+| {bookings} | {id prefix / a marker column / a notes marker; prefer the most stable} | {date} | {deposit, invoice, confirmation} | {balance, reminders, post-event follow-up} | {operator's words, import script} |
 
 ## Existing monitoring
 

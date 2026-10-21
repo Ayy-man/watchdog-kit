@@ -75,6 +75,13 @@ await check('volatile_fields_are_whole_words: messageMs, coverageHours, storageM
   }
 });
 
+await check('fingerprint_ignores_display_labels: a relabelled fact keeps the verdict, a changed value does not', () => {
+  const f = { title: 'T', severity: 'high', scope: { type: 'tenant', id: 't1' }, evidence: [{ source: 'stops', id: 's1', field: 'seat_time', value: '17:30', label: 'Stop 2, seat time' }] };
+  const relabelled = { ...f, evidence: [{ ...f.evidence[0], label: 'Neon Cactus: seat time' }] };
+  assert.equal(findingFingerprint(relabelled), findingFingerprint(f));
+  assert.notEqual(findingFingerprint({ ...f, evidence: [{ ...f.evidence[0], value: '17:10' }] }), findingFingerprint(f));
+});
+
 await check('fingerprint_ignores_evidence_order: the same refs cited in another order keep the verdict', () => {
   const refs = [
     { source: 'events', id: 'e1', field: 'replied_at', value: null },

@@ -1,5 +1,18 @@
 # core changelog
 
+## 0.2.5 (21 Oct 2026)
+
+From an adversarial review of 0.2.3 and 0.2.4 (10 points, 9 accepted).
+
+- `EvidenceRef.label` (display only): kept by `run.js` normalisation, left out of the verdict fingerprint (`verdicts.js`), with eval cases. 0.2.3 told builders to store `evidence.labels`, which core dropped.
+- Imported history is waived per obligation, never wholesale; `MAPPING.md` lists waived and still-owed obligations per import.
+- Alert-only refusal counts notification rows only; a finding that an alert is wrong is kept.
+- Rule ownership of a model kind is scoped to the rule's coverage; one condition, one owning check; grouping only for one fix and one verdict meaning, membership in the fingerprint.
+- An id rule change is a transition with a verdict-carrying map, not a rewrite on replay.
+- A reply proves delivery only on the same channel, from the same recipient identity, after the send.
+- The developer tab is decided by a declared owner per check, never by `subject_type: 'system'`.
+- `watchdog-eval` 4a: mandatory both-direction cases for every refusal and dedup rule. `prompt-rules.md` no longer asks the model to review past subjects.
+
 ## 0.2.4 (21 Oct 2026)
 
 From the reference build's third-day queue: 121 to review, of which 52 had resolved, about 25 repeated each other and 12 were noise. No core module changes shape.
