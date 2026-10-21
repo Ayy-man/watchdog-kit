@@ -12,7 +12,7 @@ One bucket per sweep slot across the last day or two, oldest first, newest on th
 
 ## Finding cards
 
-The main column. Tabs filter by state: open, to review (no verdict, or a stale verdict), judged, resolved. Each card carries:
+The main column. Tabs: To review (open findings with no verdict, or a stale one; a finding that resolved unjudged is not here), Open, Resolved, For the developer (credit, crons, workflows, settings, the watchdog's own errors; out of the operator's queue and precision), By check. Each card carries:
 
 - the severity chip and a context line naming the subject as the operator knows it, with its date and how far off it is ("Private Leeds Hidden Gems · Thu 29 Oct (in 8 days)");
 - the title in the display face, at most 90 characters, naming the subject;

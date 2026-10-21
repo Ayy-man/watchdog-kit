@@ -1,5 +1,15 @@
 # core changelog
 
+## 0.2.4 (21 Oct 2026)
+
+From the reference build's third-day queue: 121 to review, of which 52 had resolved, about 25 repeated each other and 12 were noise. No core module changes shape.
+
+- Invariant **imported history is not an obligation**: survey records imports under `## Imported history`; checks exclude imported rows through `lib/watchdog/migrated.js` with an imported trap per eval.
+- Invariant **an alert the app already shows is not a finding**: alert-only model findings are refused.
+- **One problem, one card** extended across checks: whole-subject kinds keyed on the subject, payment and reply kinds rule-owned, same-fix findings grouped, refusals and ids reapplied on replay.
+- Invariant **a reply proves delivery**.
+- Invariant **the review queue is open findings an operator can act on**: resolved-unjudged out of To review; a For the developer tab.
+
 ## 0.2.3 (21 Oct 2026)
 
 Contract and skill changes from the reference build's finding cards, which showed packet paths, UUIDs and sweep bookkeeping where an operator needed names. No core module changes shape.

@@ -174,6 +174,12 @@ The reference build showed one low "review dropped N findings" card per subject.
 
 Rejected: keeping the card at low severity. The verdict buttons on it measure nothing about the client's operation.
 
+## Imported rows are excluded by one helper, not by an age cut-off (0.2.4)
+
+The reference build's operator asked whether findings older than two weeks should be hidden. Age was a symptom: the old findings were imported workbook bookings read as new, and the oldest real finding (a voucher unposted for 63 days) is the one most worth seeing. Imports are recognised by what they are (an id prefix, a marker), recorded at survey, and excluded per obligation.
+
+Rejected: an age cut-off on findings. It hides the longest-standing real faults first. Rejected: deleting resolved findings to empty the queue. The queue now shows only open findings; resolved ones keep their history under Resolved.
+
 ## Plain cards, dev mode one switch away (0.2.3)
 
 The reference build's cards printed each model ref against its quote (`stops[1].seat_time` 17:30, `comms[2].vars.arrival_time` 4:45pm) and every key a rule check stored, ids included. The operator could not say which venue a time belonged to, so nobody gave verdicts (one in 121 findings). Labels are built in code from the packet when the finding is written, and the raw view moved behind a dev mode switch rather than being deleted, because the engineer judging a false alarm needs the exact ref and quote.

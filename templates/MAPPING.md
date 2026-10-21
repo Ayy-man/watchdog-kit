@@ -19,6 +19,14 @@ Written by the survey phase from code and migrations only; nothing verified agai
 | Time zone the business runs in | {IANA zone, or the per-tenant column that holds it and its default} | {where it is set} |
 | Door enumeration method | {TypeScript compiler API / ts-morph / grep fallback} and what that under-counts | |
 
+## Imported history
+
+One row per migration, import or backfill that created rows the checks read. Their obligations at creation were met in the old system, so every check excludes them through one helper (`lib/watchdog/migrated.js`). If none was found, say what was inspected.
+
+| Table | How to recognise an imported row | Imported on | Met outside the app |
+|---|---|---|---|
+| {bookings} | {id prefix `b_mig` / a marker column / a notes marker; prefer the most stable} | {date} | {deposit, invoice, confirmation, payment} |
+
 ## Existing monitoring
 
 One block per system that already watches the app, including the ones left alone. If none was found, say what was inspected and what remains unknown.
