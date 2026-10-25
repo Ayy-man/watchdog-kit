@@ -49,6 +49,7 @@ function fakeCheck(id, state, { severity = 'high', model = false, type = 'bookin
       if (!state.noExamined) coverage.examined(...universe.map((s) => ({ type, id: s })));
       if (state.freshAsOf) coverage.freshAsOf(state.freshAsOf);
       if (state.resolveReason) coverage.resolveReason(state.resolveReason);
+      if (state.keepOpen) coverage.keepOpen(state.keepOpen);
       const findings = state.subjects.map((s) => ({
         kind,
         subject: { type, id: s },
@@ -395,6 +396,24 @@ await check('a check can say why a finding resolved (left_scope); an unknown rea
   await runWatchdog({ client: c7, scope: SCOPE, now: T(9, 30), checks: [chk] });
   assert.equal(byId(c7)[ID('scoped', 'k', 'tour-t1')].meta.resolved_reason, 'left_scope');
   assert.equal(byId(c7)[ID('scoped', 'k', 'tour-t2')].meta.resolved_reason, 'recovered');
+});
+
+await check('a check can hold open a finding it examined and did not report; released, it resolves; left_scope is never held', async () => {
+  const c = fakePostgrest(tables());
+  const st = { subjects: ['h1', 'h2'] };
+  const chk = fakeCheck('holding', st, { type: 'tour', kind: 'k' });
+  await runWatchdog({ client: c, scope: SCOPE, now: T(9), checks: [chk] });
+  st.subjects = [];
+  st.universe = ['h1', 'h2'];
+  st.keepOpen = (row) => (row.subject_id === 'h1' ? 'everything it quoted is unchanged' : null);
+  const held = await runWatchdog({ client: c, scope: SCOPE, now: T(9, 30), checks: [chk] });
+  assert.equal(byId(c)[ID('holding', 'k', 'tour-h1')].status, 'open', 'held');
+  assert.equal(byId(c)[ID('holding', 'k', 'tour-h2')].status, 'resolved');
+  assert.ok(held.notResolved.some((n) => /held open/.test(n)));
+  st.keepOpen = () => 'still quoted';
+  st.resolveReason = () => 'left_scope';
+  await runWatchdog({ client: c, scope: SCOPE, now: T(10), checks: [chk] });
+  assert.equal(byId(c)[ID('holding', 'k', 'tour-h1')].meta.resolved_reason, 'left_scope', 'a subject out of scope resolves whatever keepOpen says');
 });
 
 await check('a subject the check says left its scope resolves as left_scope without being examined; any other unexamined subject stays open', async () => {

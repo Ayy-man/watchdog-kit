@@ -206,6 +206,24 @@ export function locateQuote(packet, ref, quote) {
  *   root?: {type: string, id: string},        what a ref into nothing listed points at (default the packet)
  * }} opts
  */
+/**
+ * Does the packet still hold every value a stored finding quoted, at its ref
+ * or, for a long quote (PARTIAL_QUOTE_MIN_CHARS or more) whose list item
+ * moved, at exactly one other item? A short value such as a status is never
+ * looked for elsewhere: "planned" on another stop says nothing about this
+ * one. A model
+ * check passes this to coverage.keepOpen so a finding its next review did not
+ * repeat stays open until a quoted fact changes. Pure.
+ */
+export function stillQuoted(packet, refs, quotes) {
+  if (!packet || !Array.isArray(refs) || !Array.isArray(quotes) || !refs.length || refs.length !== quotes.length) return false;
+  return refs.every((ref, i) => {
+    const { found, value } = resolveRef(packet, ref);
+    if (found && quoteMatches(value, quotes[i])) return true;
+    return normaliseQuote(quotes[i]).length >= PARTIAL_QUOTE_MIN_CHARS && Boolean(locateQuote(packet, ref, quotes[i]));
+  });
+}
+
 export function entityOfRef(packet, ref, { listTypes = {}, keyTypes = {}, entityOf = null, root = { type: 'packet', id: 'packet' } } = {}) {
   const parts = parseRef(ref) ?? [];
   let cur = packet;

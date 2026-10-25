@@ -245,6 +245,7 @@ function toDate(value) {
  *   coverage.partial('could not reach the model for 1 of 4', [subjectRef])
  *   coverage.incomplete('why')                      // sets complete false
  *   coverage.resolveReason((row) => 'left_scope')   // why a dropped finding resolved
+ *   coverage.keepOpen((row) => 'still quoted')     // why a dropped finding stays open
  *   coverage.review({ ... })                        // model review figures
  *
  * `finish({ ledger, now })` folds in the counting ledger: its sources are
@@ -314,6 +315,13 @@ export function createCoverage({ scope, policyVersion = 'unversioned', now = new
     },
     incomplete(reason) { out.complete = false; out.incompleteWhy.push(shortText(reason, 160) ?? 'incomplete'); return recorder; },
     resolveReason(fn) { out.resolveReason = typeof fn === 'function' ? fn : null; return recorder; },
+    /**
+     * `fn(row)` returns why an open finding this check examined but did not
+     * report is still true, or null. A model review that stays silent is not
+     * evidence a problem went away (0.2.6): its check holds a finding open
+     * while every value it quoted is unchanged (grounding.js stillQuoted).
+     */
+    keepOpen(fn) { out.keepOpen = typeof fn === 'function' ? fn : null; return recorder; },
     review(stats) {
       try { out.review = stats && typeof stats === 'object' ? JSON.parse(JSON.stringify(stats)) : null; } catch { out.review = null; }
       return recorder;
@@ -344,6 +352,7 @@ export function createCoverage({ scope, policyVersion = 'unversioned', now = new
         sources,
         words: { covered: out.covered, idle: out.idle, skipped: out.skipped, partial: out.partial, review: out.review },
         resolveReason: out.resolveReason,
+        keepOpen: out.keepOpen ?? null,
       };
     },
     /** What was collected so far, for the receipt. */
@@ -402,6 +411,7 @@ export function normaliseCoverage(given, fallback) {
     sources,
     words: base.words ?? { covered: [], idle: null, skipped: null, partial: [], review: null },
     resolveReason: base.resolveReason ?? null,
+    keepOpen: base.keepOpen ?? null,
   };
 }
 

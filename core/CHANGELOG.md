@@ -1,5 +1,14 @@
 # core changelog
 
+## 0.2.6 (25 Oct 2026)
+
+From the reference build's first sweep after a credit outage: a second review of one tour did not repeat five findings whose facts had not changed, and the sweep closed them. A review that stays silent is not evidence a problem went away.
+
+- `coverage.keepOpen(fn)`: a check may hold open a finding it examined and did not report; `resolutionDecision` then leaves it open (`held open: <why>` in `notResolved`). A `left_scope` subject is never held.
+- `grounding.stillQuoted(packet, refs, quotes)`: true while every quoted value is still at its ref; a long quote whose list item moved may be found at exactly one other item, a short value (a status) never is.
+- `watchdog-review`: every model check passes `keepOpen` holding a finding while `stillQuoted`, unless today's refusals would drop it or the same sweep raised a finding of the same kind about the same entity (a reworded replacement). Eval cases for each.
+- `watchdog-review`: a packet field compared with what a party was sent must be the value the app would send now, computed as the send computes it, never a stored seed that goes stale. The reference build compared a stored seat time with the arrival time in each venue request and raised five false alarms; on live every venue had been told exactly the time the send resolves.
+
 ## 0.2.5 (21 Oct 2026)
 
 From an adversarial review of 0.2.3 and 0.2.4 (10 points, 9 accepted).

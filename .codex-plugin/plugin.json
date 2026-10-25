@@ -1,6 +1,6 @@
 {
   "name": "watchdog-kit",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Builds a report-only production watchdog for the app in the current repo: a doors contract, deterministic checks, a grounded model review, a findings page with human verdicts, and an eval against the client's own incident history. User-invoked only; never deploys.",
   "author": {
     "name": "Ayman Baig"

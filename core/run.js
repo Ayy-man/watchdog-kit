@@ -322,6 +322,14 @@ export function resolutionDecision(result, row, scope = null) {
   const evidenceExplicit = toDate(row.last_evidence_at) != null && obj(row.meta)[EVIDENCE_DEFAULTED_KEY] !== true;
   let reason = null;
   try { reason = cov.resolveReason?.(row) ?? null; } catch { reason = null; }
+  if (reason !== 'left_scope') {
+    // Examined and not reported is not proof of recovery when the check says
+    // the finding is still true (a model review that did not repeat it while
+    // everything it quoted is unchanged).
+    let hold = null;
+    try { hold = cov.keepOpen?.(row) ?? null; } catch { hold = null; }
+    if (hold) return { ok: false, why: `held open: ${String(hold).slice(0, 120)}`, reason: null };
+  }
   if (!coverageExamined(cov, { type: row.subject_type, id: row.subject_id }, evidenceExplicit ? lastEvidence : null)) {
     // A subject the check says in code has left its scope cannot be examined
     // by definition; that explicit answer, on a complete and fresh run, is

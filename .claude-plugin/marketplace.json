@@ -8,7 +8,7 @@
     {
       "name": "watchdog-kit",
       "description": "Builds a report-only production watchdog for the app in the current repo, phase by phase, from the doors contract through to a proven deployed sweep.",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "source": "./",
       "category": "Operations",
       "tags": ["watchdog", "monitoring", "report-only"]

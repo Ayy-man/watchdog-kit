@@ -119,6 +119,8 @@ export interface CoverageRecorder {
   partial(reason: string, skipped?: Array<SubjectRef | string>): CoverageRecorder;
   incomplete(reason: string): CoverageRecorder;
   resolveReason(fn: (row: Record<string, unknown>) => ResolveReason | null): CoverageRecorder;
+  /** Why an open finding the check examined and did not report is still true (held open), or null. Never holds a left_scope subject. */
+  keepOpen(fn: (row: Record<string, unknown>) => string | null): CoverageRecorder;
   review(stats: Record<string, unknown>): CoverageRecorder;
 }
 

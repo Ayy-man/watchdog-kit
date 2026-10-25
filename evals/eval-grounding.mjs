@@ -10,7 +10,7 @@
 import { assert, check, done } from './lib/harness.mjs';
 import {
   asData, checkFinding, checkReview, DATA_NOTE, entitiesOfRefs, entityOfRef, formatRef, hasPII, locateQuote, normaliseKind,
-  parseRef, quoteMatches, resolveRef, scrubText,
+  parseRef, quoteMatches, resolveRef, scrubText, stillQuoted,
 } from '../core/grounding.js';
 
 const LIST_TYPES = { stops: 'stop', bookings: 'booking', inbound: 'inbound', comms: 'comms' };
@@ -170,6 +170,17 @@ await check('checkReview splits accepted and rejected, de-duplicates by key, hon
   assert.deepEqual(out.rejected.map((r) => r.reason), ['same problem as "A"', 'a rule check owns it', 'confidence 0.2 is below 0.6']);
   assert.deepEqual(out.okNotes, ['Second Stop confirmed']);
   assert.deepEqual(checkReview(null, packet, OPTS), { accepted: [], rejected: [], okNotes: [] });
+});
+
+await check('stillQuoted: unchanged quotes hold, a changed one does not, a moved list item is still found', () => {
+  assert.equal(stillQuoted(packet, ['stops[1].status', 'inbound[id=m1].body'], ['confirmed', 'that works for us on Saturday']), true);
+  assert.equal(stillQuoted(packet, ['stops[1].status'], ['planned']), false, 'a quoted fact changed');
+  const moved = { ...packet, inbound: [{ id: 'm0', body: 'A new message ahead of the others in the list, nothing to do with them.' }, ...packet.inbound] };
+  assert.equal(stillQuoted(moved, ['inbound[0].body'], ['that works for us on Saturday']), true, 'a long quote whose item moved is found once elsewhere');
+  const statusMoved = { ...packet, stops: [{ id: 's0', venue_name: 'New Stop', status: 'confirmed' }, { ...packet.stops[0] }, { ...packet.stops[1], status: 'planned' }] };
+  assert.equal(stillQuoted(statusMoved, ['stops[1].status'], ['confirmed']), false, 'a short value is never looked for on another item');
+  assert.equal(stillQuoted(packet, [], []), false, 'nothing quoted holds nothing');
+  assert.equal(stillQuoted(null, ['stops[0].status'], ['planned']), false);
 });
 
 done();
