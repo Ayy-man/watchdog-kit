@@ -1,6 +1,6 @@
 # Rules every build keeps
 
-These hold on every page this skill builds, whatever the plan says. A requirement that would break one is raised with the human along with the closest alternative that keeps the rule. The sources are where each rule comes from; the full research notes are in the Hexona vault at `hexona/operational/active-projects/vitalmeter/research.md`.
+These hold on every page this skill builds, whatever the plan says. A requirement that would break one is raised with the human along with the closest alternative that keeps the rule. The sources are where each rule comes from.
 
 1. **Every headline number shows a comparison**: a baseline, a target, last period or a peer median. A number on its own is moved to the detail layer. (Stephen Few, "Common Pitfalls in Dashboard Design"; GOV.UK Service Manual, setting performance metrics.)
 2. **Measured and estimated figures are labelled as such**, with the assumption and who gave it one click away. Estimates are never added into a measured figure without saying so. (UiPath Insights ROI model, which keeps actual and estimated benefit apart; Forrester TEI, which risk-adjusts estimates; UK Government Analysis Function on communicating uncertainty.)

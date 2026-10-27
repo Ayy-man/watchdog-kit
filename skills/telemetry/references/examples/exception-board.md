@@ -93,7 +93,7 @@ The build watches rent, compliance, cleaners and the books, and raises a card on
 
 ## 8. Open questions
 
-1. Should the owner see Grimsby and Hull split from Leeds? Best guess: yes, as a filter on the property grid, not separate pages.
+1. Should the owner see Eastport and Riverton split from Northfield? Best guess: yes, as a filter on the property grid, not separate pages.
 2. Is “about 6 days” to clear before the board good enough to show? Best guess: show it, labelled as the ops manager’s estimate.
 3. Does the owner want the morning briefing linked from here? Best guess: link it from the status line.
 
