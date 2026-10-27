@@ -24,6 +24,13 @@ The usual mistake is measuring what happens to be logged instead of what matters
 
 Credibility dies the first time a client catches an inflated number, and it does not come back. From step 3's timestamps and the baseline, decide for every figure whether it is measured, estimated (with the assumption and who gave it, for example "about 5 days, said by the owner at kickoff"), or absent until the data exists.
 
+Time saved is the figure this matters most for, and it comes two ways, shown side by side and never summed into one unlabelled number:
+
+- **Measured:** the job's own start and finish events (or a run's `duration_s`) against the same job done by hand before. This needs a before time per job and events on every run.
+- **Credited:** runs counted by the system, times the minutes per task the owner gave at kickoff (a baseline survey, if one was run). This is an estimate and is labelled as one, with who gave the minutes and when.
+
+If there is no baseline yet, the credited figure is absent, not zero, and the plan's open questions say who will run the survey. Re-survey at about day 90 replaces the kickoff minutes for the credited figure.
+
 The usual mistakes are presenting a kickoff estimate as a measurement, and showing zero where the honest answer is "not known yet". A margin with one missing cost rate is absent, not zero.
 
 ## 5. What is each number compared with?

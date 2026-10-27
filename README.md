@@ -121,4 +121,4 @@ These words mean one thing each, everywhere in this repo and in every prompt it 
 
 ## Status
 
-27 Oct 2026: `/telemetry` added, covering the PostHog install and the client page. Core 0.2.6. `node evals/run-all.mjs` runs 13 eval files, all green.
+27 Oct 2026: `/telemetry` added, covering the PostHog install and the client page, and the watchdog survey, explainer and page now read `.telemetry/`. Core 0.2.6. `node evals/run-all.mjs` runs 14 eval files, all green. First real runs: two UK client builds (Next 16 with Expo, and Vite with Capacitor).
