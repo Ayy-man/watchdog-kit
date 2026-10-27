@@ -1,4 +1,4 @@
-# Worked plan: Bookings automation for a food tour company (Leeds)
+# Worked plan: Bookings automation for a food tour company
 
 Status: approved (worked example; figures are samples). This is the build whose boards set the bar for craft: example A on the design canvas.
 

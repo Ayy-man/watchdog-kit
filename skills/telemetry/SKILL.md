@@ -1,6 +1,6 @@
 ---
 name: telemetry
-description: Put telemetry on the build in the current repo, end to end. Scans the code for every service, installs PostHog the Hexona way (tags, identify, privacy, proxy, replay masking, n8n and GHL events, billing gate), then plans and builds the client-facing page that proves the build is doing what was promised, per role, and hands Custodian builds on to the Watchdog. Stops for approval at the plan and at the billing limits. Invoke it in a client repo as /telemetry in Claude Code or $telemetry in Codex; it resumes from .telemetry/, and you can drop notes or new requirements in at any time.
+description: Put telemetry on the build in the current repo, end to end. Scans the code for every service, installs PostHog in whichever account you choose (tags, identify, privacy, proxy, replay masking, n8n and GHL events, billing gate), then plans and builds the client-facing page that proves the build is doing what was promised, per role, and hands Custodian builds on to the Watchdog. Stops for approval at the plan and at the billing limits. Invoke it in a client repo as /telemetry in Claude Code or $telemetry in Codex; it resumes from .telemetry/, and you can drop notes or new requirements in at any time.
 disable-model-invocation: true
 argument-hint: "[--status | --install | --plan | --build | --change \"new requirement\"]"
 ---
@@ -12,7 +12,7 @@ You are putting telemetry on a client build: the data that shows what the build 
 This is one skill with layers, run in order, each finishing before the next starts:
 
 1. **Scan** the build and map every service it touches.
-2. **Install** PostHog the Hexona way, so the data exists and is trustworthy.
+2. **Install** PostHog, in the account and region you pick, so the data exists and is trustworthy.
 3. **Plan the page** with the build, and stop for approval.
 4. **Build the page** from the plan.
 5. **Hand on to the Watchdog**, on Custodian builds only.
@@ -40,13 +40,17 @@ On every run, read `.telemetry/` first and continue from where it stands. With `
 
 ## First run
 
-Ask one question before anything else:
+Read the repo's own `AGENTS.md`, `CLAUDE.md` and contributing notes before anything else, and follow them over anything here: its package manager, branch and commit rules, how it runs migrations, what it forbids. Then ask, in one message:
 
-> **Which tier is this build on?**
-> 1. **Telemetry only.** PostHog and the client page.
-> 2. **Custodian.** The same, then a Watchdog on top that watches for silent failures and gives the page its Health tab.
+> 1. **Which tier is this build on?** Telemetry only (PostHog and the client page), or Custodian (the same, then a Watchdog that watches for silent failures and gives the page its Health tab).
+> 2. **Who signs off?** The account owner who approves the plan, the billing limits and session replay. If that is not you, name them; I will stop and wait for them at each of those three points.
+> 3. **Whose client is it?** Ours directly, or a partner's (name the partner). A partner's client's page carries none of our name or marks, and the partner's own accounts count as internal.
 
-Record the answer at the top of SERVICES.md. If the repo already has `.watchdog/`, it is Custodian; say so instead of asking.
+PostHog itself (whose account, new or existing project, region, timezone) is asked at the start of layer 2, every time, because it differs per build.
+
+Record the answers at the top of SERVICES.md. If the repo already has `.watchdog/`, it is Custodian; say so instead of asking that part.
+
+The person running this skill is often a developer, not the account owner. The three sign-offs are the owner's, and a developer recording their own approval is not an approval: write "waiting on {owner}" and stop. On the first run, add `.telemetry/inbox/` to the repo's `.gitignore`, because what gets dropped there (proposals, call notes, baselines) is internal and the client may be able to see the repo.
 
 On timing: telemetry goes on at the start of the client testing window, so testing sessions are recorded and the time-per-job trend has a starting point before go-live. The Watchdog goes on near the end of the lifecycle, once the build is stable. If you are being run earlier or later than that, say so and carry on.
 
@@ -58,13 +62,13 @@ Write SERVICES.md from the template: every service with where you found it, what
 
 ## Layer 2: install
 
-Follow `references/install.md` in order: the project and its settings, the wizard and its hand-off, the Hexona layer (tags on every path, identify, internal users, AI privacy mode, `after()`, the reverse proxy), replay masking before replay, the events from n8n, GoHighLevel and scheduled jobs, and verification against real data. Log every step and surprise in SETUP.md as you go.
+Follow `references/install.md` in order: the repo's own rules (package manager, which env file is local, what deploys production, migrations), the account questions, the project and its settings, the wizard and its hand-off, the layer on top (tags on every path, identify, internal users, AI privacy mode, `after()`, the reverse proxy), the section for each app's stack, replay masking before replay, the events from n8n, GoHighLevel and scheduled jobs, and verification against real data. Log every step and surprise in SETUP.md as you go.
 
 Stop at the billing gate. The install is not done until the human confirms a billing limit is set on every paid PostHog product this build turned on.
 
 ## Layer 3: plan the page
 
-1. **Gather.** The code, the vault for this client (proposal, scope, `/baseline` answers, call notes, earlier builds), SERVICES.md and SETUP.md, the PostHog project (event names and 30-day volumes, now that data is flowing), and everything in `.telemetry/inbox/`. Note the source of every fact.
+1. **Gather.** The code, the vault for this client if you can reach it (proposal, scope, `/baseline` answers, call notes, earlier builds; a developer without vault access works from what the owner drops into `.telemetry/inbox/`, and asks for it rather than guessing the scope), SERVICES.md and SETUP.md, the PostHog project (event names and 30-day volumes, now that data is flowing), and everything in `.telemetry/inbox/`. Note the source of every fact.
 2. **Think it through.** Read all four plans in `references/examples/` first. Then work the ten steps in `references/thinking.md` in order; do not skip ahead to panels. Where the evidence does not settle an answer, write your best guess and mark it as an open question rather than stopping to ask.
 3. **Write PAGE-PLAN.md** from the template, every section filled.
 4. **Self-check** against the list at the end of `references/thinking.md`, and fix what fails.
@@ -74,7 +78,7 @@ Stop at the billing gate. The install is not done until the human confirms a bil
    > The open questions, numbered, each with your best guess, so the human can answer "yes to all" or correct one.
    > What building it needs that does not exist yet (events, a role, a cost rate), and who adds it.
 
-   Record the approval in the plan's status line with the approver's name and the date. Nothing in layer 4 starts without it.
+   Record the approval in the plan's status line with the account owner's name and the date, in their words or a link to where they said it. Nothing in layer 4 starts without it.
 
 ## Layer 4: build the page
 
@@ -100,5 +104,7 @@ With `--change "..."`, a new file in `.telemetry/inbox/`, or the human telling y
 - Turns on session replay before the masking is deployed.
 - Shows a figure without a comparison on a summary, an estimate without saying it is one, or zero where the honest answer is "not known yet".
 - Shows green while a feed it depends on has gone quiet.
-- Sends prompts or AI outputs to PostHog, or puts Hexona's name, colours or marks on a partner client's page.
-- Reads `.env` values, pastes keys into chat, merges, or deploys.
+- Sends prompts or AI outputs to PostHog, or puts the builder's own name, colours or marks on a partner client's page.
+- Reads `.env` values, pastes keys into chat, merges, deploys, or pushes to a branch that deploys production. All work goes on a branch with a pull request.
+- Forwards logs or traces to PostHog without first checking they carry no prompts, replies or personal data.
+- Writes prices, margins, partner fees or internal notes into anything the client can see: the page, its queries, event properties, or committed files under `.telemetry/`.

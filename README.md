@@ -1,48 +1,86 @@
 # Watchdog Kit
 
-**Point a coding agent at an app. Get a production watchdog that cannot lie and cannot send.**
+**Agent Skills that put telemetry and a watchdog on a client app, and stop for a human at every decision that matters.**
 
-The kit is a set of Agent Skills for Claude Code and Codex. Run one command in a client repo and the agent surveys every door the app has (webhooks in, provider calls out, scheduled jobs), writes down how each one proves it fired, builds deterministic checks on that contract, adds a model review that may only quote evidence it was handed, puts the findings on a page where a human marks each one correct or false alarm, and scores the whole thing against the app's own incident history. Nine phases, a human stop after each, and report-only enforced by construction: the runtime holds no credential it could send with.
+Two skills, run in this order:
 
-Built once by hand for a live operations app, then extracted. Every invariant in `core/` has an eval that proves it.
+| Skill | What you get | When |
+|---|---|---|
+| `/telemetry` | PostHog installed properly, and a page the client opens to see the build working | Start of client testing |
+| `/watchdog-build` | A report-only watchdog that catches silent failures, scored against the app's own past incidents | Once the build is stable |
 
-A second skill, `/telemetry`, comes first on a new build: it scans the code, installs PostHog with tags, privacy and a billing gate, and plans and builds the client-facing page that proves the build is doing what was promised. On Custodian builds it hands on to the watchdog, whose findings page becomes that page's Health tab.
+Works in Claude Code (`/name`) and Codex (`$name`).
 
-This repo is the kit itself. The phase order, the gates and the reasoning behind each are in `skills/watchdog-build/SKILL.md` and its shared contract, `skills/watchdog-build/references/shared-contract.md`.
+| The value tab, as the owner sees it | The Health tab, with the watchdog's findings |
+|---|---|
+| ![Value tab: a one-line verdict, four headline figures each with a comparison, rent on time by month, upcoming certificates](docs/images/telemetry-value.png) | ![Health tab: 24 hours of checks, a finding with its evidence and what it would do, and what the watchdog watches](docs/images/telemetry-health.png) |
 
-## Supported stacks
+<sub>Design boards with placeholder data.</sub>
 
-The kit assumes four things about the client app: it is a Node or TypeScript app, its data is in Postgres (the core queries it through a PostgREST-style builder, either a hosted platform's data API or a thin adapter over a direct connection), its jobs run on a cron-style scheduler (a host's cron config, a task runner, `pg_cron`, a CI schedule), and its routes are Fetch-style handlers that take a `Request` and return a `Response`. The survey checks each assumption against the repo and records anything outside them as `unsupported` with what it would take to cover, rather than building on a guess.
-
-## Install
-
-Get a checkout and install it for the local user:
+## Quick start
 
 ```
 git clone https://github.com/Ayy-man/watchdog-kit ~/watchdog-kit
 cd ~/watchdog-kit
-node scripts/install.mjs --all          # dry run: lists what it would create
-node scripts/install.mjs --all --yes    # symlinks skills and agents into Claude Code and Codex
+node scripts/install.mjs --all --yes
 ```
 
-The default install symlinks, so moving or deleting the checkout breaks it; add `--copy` for a copy that stands alone, and `--uninstall --yes` removes exactly what an earlier run created.
+Then open a client repo and run `/telemetry`. It asks three questions, scans the code, and tells you what it needs next. Run it again any time and it picks up where it stopped.
 
-Re-running a `--copy` install refreshes files you have not touched since install and reports, but keeps, any file you edited. `node scripts/install.mjs --check` changes nothing and exits 1 on any problem with an earlier install (ledger, missing paths, `$KIT`, stale or edited copies, Codex mirrors), one line per problem with its fix.
+## /telemetry
 
-As a Claude Code plugin: `/plugin marketplace add Ayy-man/watchdog-kit`, then `/plugin install watchdog-kit@watchdog-kit-local`.
+1. **Asks** the tier, who signs off, and whose client it is.
+2. **Scans** the code and writes `.telemetry/SERVICES.md`: every service the app touches and how its events will reach PostHog.
+3. **Installs PostHog** in the account you name (yours, the client's or a partner's, new or existing project, US or EU): tags on every event, internal users filtered out, AI prompts kept private, a reverse proxy, replay masking.
+4. **Plans the page** in ten steps, writes `.telemetry/PAGE-PLAN.md`, and **stops** for the account owner.
+5. **Builds the page** in the client's own stack and design system.
+6. **Hands on** to `/watchdog-build` on Custodian builds. The watchdog's findings page becomes the Health tab.
 
-Next, in a client repo, run the build skill: `/watchdog-build` after a user install, `/watchdog-kit:watchdog-build` after a plugin install, or `$watchdog-build` in Codex. It starts at the survey and resumes from `.watchdog/` when a build is already under way.
+It never passes these without the account owner: which PostHog account and region, the billing limits, session replay consent, and the page plan. It writes only `.telemetry/`. Four worked plans in `skills/telemetry/references/examples/` show the same steps producing very different pages.
 
-## Two ways to work
+## /watchdog-build
 
-The build has nine phases and stops for a human at most of them. On the first run it asks which way you want to work, and the answer changes when it asks, never who decides.
+1. **Surveys** every door the app has (webhooks in, provider calls out, scheduled jobs) and how each proves it fired.
+2. **Builds deterministic checks** on that contract, plus a model review that may only quote evidence it was handed.
+3. **Puts findings on a page** where a human marks each one correct or a false alarm.
+4. **Scores itself** against the app's own incident history.
+
+Nine phases, a human stop after each. Report-only by construction: the runtime holds no credential it could send with. The phase order and gates are in `skills/watchdog-build/SKILL.md` and `skills/watchdog-build/references/shared-contract.md`.
+
+<details>
+<summary><b>Two ways to work</b> (step by step, or run ahead)</summary>
+
+On the first run it asks which way you want to work. The answer changes when it asks, never who decides.
 
 - **Step by step** (default): it stops and asks at every checkpoint. For when you are at the keyboard.
-- **Run ahead**: you answer up front what can be answered up front (the model key's variable name, the spend cap, the review slot times, which model to keep after the bake-off), and it builds everything whose inputs exist while queueing the questions that need you. `--status` lists the queue in order when you come back, and you answer it in one sitting. Independent phases (the explainer, the incident history, the heartbeats) run at the same time once the survey is approved.
+- **Run ahead**: you answer up front what can be answered up front (the model key's variable name, the spend cap, the review slot times, which model to keep after the bake-off), and it builds everything whose inputs exist while queueing the questions that need you. `--status` lists the queue when you come back. Independent phases (the explainer, the incident history, the heartbeats) run at the same time once the survey is approved.
 
-Run ahead does not remove the stops that are yours by nature. Three things wait for a human in both modes: approving the survey before anything reads production or spends, judging the findings, and the merge. Expect about five touchpoints in run-ahead mode instead of nine.
+Three things wait for a human in both modes: approving the survey before anything reads production or spends, judging the findings, and the merge. Expect about five touchpoints in run-ahead mode instead of nine.
 
-## Layout
+</details>
+
+<details>
+<summary><b>Supported stacks</b></summary>
+
+The watchdog assumes a Node or TypeScript app, data in Postgres (queried through a PostgREST-style builder, either a hosted data API or a thin adapter over a direct connection), jobs on a cron-style scheduler (host cron, a task runner, pg_cron, a CI schedule), and Fetch-style route handlers. The survey checks each assumption and records anything outside them as unsupported, with what it would take to cover, rather than building on a guess.
+
+`/telemetry` covers Next.js, Vite single-page apps, Capacitor and Expo mobile apps, and Supabase or other Deno edge functions; see `skills/telemetry/references/install.md`.
+
+</details>
+
+<details>
+<summary><b>Install options</b></summary>
+
+`node scripts/install.mjs --all` without `--yes` is a dry run that lists what it would create. The default install symlinks, so moving or deleting the checkout breaks it; add `--copy` for a copy that stands alone, and `--uninstall --yes` removes exactly what an earlier run created.
+
+Re-running a `--copy` install refreshes files you have not touched and keeps, with a report, any file you edited. `node scripts/install.mjs --check` changes nothing and exits 1 on any problem with an earlier install, one line per problem with its fix.
+
+As a Claude Code plugin: `/plugin marketplace add Ayy-man/watchdog-kit`, then `/plugin install watchdog-kit@watchdog-kit-local`, and run skills as `/watchdog-kit:telemetry` and `/watchdog-kit:watchdog-build`.
+
+</details>
+
+<details>
+<summary><b>Layout</b></summary>
 
 ```
 core/            the generic runtime, vendored into each client as lib/watchdog/core/ with a version stamp
@@ -53,17 +91,10 @@ agents/          Claude subagent definitions; codex/agents/ holds the TOML equiv
 scripts/         install and vendoring helpers
 ```
 
-## Telemetry
+</details>
 
-`skills/telemetry` is the front door, a separate user-invoked skill (`/telemetry`, `$telemetry`) that puts telemetry on a build end to end, in layers: it scans the code and writes a services map, installs PostHog the Hexona way (tags on every path, identify, AI privacy mode, the reverse proxy, replay masking, n8n and GoHighLevel events, and a billing gate it will not pass without a human), then thinks the client-facing page through in ten steps (`references/thinking.md`), writes `.telemetry/PAGE-PLAN.md` and stops for approval, and builds the page in the client's own stack and design system. On Custodian builds it then hands on to `watchdog-build`, which reads `.telemetry/` as input and whose findings page becomes the page's Health tab. It writes only `.telemetry/` and never the watchdog journal. Four worked plans in `references/examples/` show the same steps producing very different pages.
-
-| The value tab, as the owner sees it | The Health tab, with the watchdog's findings |
-|---|---|
-| ![Value tab: a one-line verdict, four headline figures each with a comparison, rent on time by month, upcoming certificates](docs/images/telemetry-value.png) | ![Health tab: 24 hours of checks, a finding with its evidence and what it would do, and what the watchdog watches](docs/images/telemetry-health.png) |
-
-Both are design boards with placeholder data, from the canvas the four worked plans were drawn on.
-
-## Vocabulary
+<details>
+<summary><b>Vocabulary</b></summary>
 
 These words mean one thing each, everywhere in this repo and in every prompt it generates.
 
@@ -86,6 +117,8 @@ These words mean one thing each, everywhere in this repo and in every prompt it 
 - **hub**: an optional central view across installations. It pulls each installation's summary projection; the watchdog never posts to it.
 - **report-and-tell**: the second contract level, the same code plus a separately provisioned alert sender, added in its own authorised change after the alert gates pass.
 
+</details>
+
 ## Status
 
-19 Oct 2026: core 0.2.1 extracted from the first installation and checked against a multi-tenant installation; nine skills, agents, installer and vendoring in place. The first installation now runs on the vendored core. Later the same day: every human stop became a named decision in the shared contract, the build gained the step and run-ahead modes, phases 1 to 3 run in parallel, the journal records what each phase read so a changed input invalidates the phases after it, and `install.mjs --check` and `vendor-core.mjs --check` became doctors. `node evals/run-all.mjs` runs 13 eval files, all green.
+27 Oct 2026: `/telemetry` added, covering the PostHog install and the client page. Core 0.2.6. `node evals/run-all.mjs` runs 13 eval files, all green.

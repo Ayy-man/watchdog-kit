@@ -11,6 +11,6 @@ These hold on every page this skill builds, whatever the plan says. A requiremen
 7. **A missing figure shows as absent, never as zero**, with what it is waiting on.
 8. **Figures a role must not see are left out of that role's data**, at the query, not only hidden on screen.
 9. **Verdicts take one tap**, false alarms ask why, and the page shows how often the checks are right from those verdicts. Unsure and low-confidence findings go to a person first. (Google PAIR guidebook on feedback; Microsoft HAX guidelines 9 and 13; Settles on active learning; Sendelbach and Funk on alarm fatigue.)
-10. **The client's own design system and tokens**, with no Hexona name, colours or marks on a partner client's page.
+10. **The client's own design system and tokens**, with none of the builder's own name, colours or marks on a partner client's page.
 
-And two that follow from Hexona's PostHog setup: every event carries `client_slug`, `app` and `environment`, including events from paths that skip the app's capture wrapper (AI tracing, n8n, GHL); and AI usage is recorded as counts and cost only, never prompts or outputs.
+And two that follow from how the PostHog install is done: every event carries `client_slug`, `app` and `environment`, including events from paths that skip the app's capture wrapper (AI tracing, n8n, GHL); and AI usage is recorded as counts and cost only, never prompts or outputs.
