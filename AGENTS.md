@@ -2,7 +2,7 @@
 
 The entry point is the `watchdog-build` skill (`skills/watchdog-build/SKILL.md`). It is the orchestrator and the only file that knows the phase order; every phase skill under `skills/` is written without knowledge of what follows it, and you do not pass it hints. Invoke it in a client repo with `/watchdog-build` in Claude Code or `$watchdog-build` in Codex; a phase skill is loaded by reading its `SKILL.md`, so nothing depends on one agent's skill tool. It resumes from `.watchdog/` when a build is already under way.
 
-`skills/telemetry-page` is a separate user-invoked skill for the client-facing telemetry page; it is not a phase, writes only `.telemetry/`, and never writes the watchdog journal.
+`skills/telemetry` is the separate, user-invoked front door: PostHog install, then the client-facing page, then a hand-on to `watchdog-build` on Custodian builds. It is not a watchdog phase, writes only `.telemetry/`, and never writes the watchdog journal.
 
 The vocabulary lives in `README.md`. Those words mean one thing each, everywhere in this repo and in every prompt it generates; use them as defined and do not coin synonyms.
 

@@ -51,9 +51,9 @@ agents/          Claude subagent definitions; codex/agents/ holds the TOML equiv
 scripts/         install and vendoring helpers
 ```
 
-## The telemetry page
+## Telemetry
 
-`skills/telemetry-page` is a separate, user-invoked skill (`/telemetry-page`, `$telemetry-page`) for the page a client opens to see their build working: a plain summary per role, a dense detail layer one click away, and a Health tab. It thinks the page through in ten steps (`references/thinking.md`), writes `.telemetry/PAGE-PLAN.md` and stops for approval, then builds in the client's own stack and design system. It is not a watchdog phase and does not touch the journal. On a build that has a Watchdog, the Watchdog's findings page is its Health tab; on one that does not, it builds the Health tab from silence and freshness checks and offers the Watchdog as the switched-off state. Four worked plans in `references/examples/` show the same steps producing very different pages.
+`skills/telemetry` is the front door, a separate user-invoked skill (`/telemetry`, `$telemetry`) that puts telemetry on a build end to end, in layers: it scans the code and writes a services map, installs PostHog the Hexona way (tags on every path, identify, AI privacy mode, the reverse proxy, replay masking, n8n and GoHighLevel events, and a billing gate it will not pass without a human), then thinks the client-facing page through in ten steps (`references/thinking.md`), writes `.telemetry/PAGE-PLAN.md` and stops for approval, and builds the page in the client's own stack and design system. On Custodian builds it then hands on to `watchdog-build`, which reads `.telemetry/` as input and whose findings page becomes the page's Health tab. It writes only `.telemetry/` and never the watchdog journal. Four worked plans in `references/examples/` show the same steps producing very different pages.
 
 ## Vocabulary
 
