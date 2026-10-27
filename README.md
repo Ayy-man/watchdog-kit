@@ -6,6 +6,8 @@ The kit is a set of Agent Skills for Claude Code and Codex. Run one command in a
 
 Built once by hand for a live operations app, then extracted. Every invariant in `core/` has an eval that proves it.
 
+A second skill, `/telemetry`, comes first on a new build: it scans the code, installs PostHog with tags, privacy and a billing gate, and plans and builds the client-facing page that proves the build is doing what was promised. On Custodian builds it hands on to the watchdog, whose findings page becomes that page's Health tab.
+
 This repo is the kit itself. The phase order, the gates and the reasoning behind each are in `skills/watchdog-build/SKILL.md` and its shared contract, `skills/watchdog-build/references/shared-contract.md`.
 
 ## Supported stacks
