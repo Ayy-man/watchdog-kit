@@ -51,6 +51,10 @@ agents/          Claude subagent definitions; codex/agents/ holds the TOML equiv
 scripts/         install and vendoring helpers
 ```
 
+## The telemetry page
+
+`skills/telemetry-page` is a separate, user-invoked skill (`/telemetry-page`, `$telemetry-page`) for the page a client opens to see their build working: a plain summary per role, a dense detail layer one click away, and a Health tab. It thinks the page through in ten steps (`references/thinking.md`), writes `.telemetry/PAGE-PLAN.md` and stops for approval, then builds in the client's own stack and design system. It is not a watchdog phase and does not touch the journal. On a build that has a Watchdog, the Watchdog's findings page is its Health tab; on one that does not, it builds the Health tab from silence and freshness checks and offers the Watchdog as the switched-off state. Four worked plans in `references/examples/` show the same steps producing very different pages.
+
 ## Vocabulary
 
 These words mean one thing each, everywhere in this repo and in every prompt it generates.

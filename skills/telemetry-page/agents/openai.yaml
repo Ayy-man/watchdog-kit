@@ -1,0 +1,6 @@
+interface:
+  display_name: "Telemetry Page"
+  short_description: "Plan and build the client-facing telemetry page for the build in this repo"
+  default_prompt: "Run $telemetry-page in this repo."
+policy:
+  allow_implicit_invocation: false
