@@ -11,11 +11,11 @@ Two skills, run in this order:
 
 Works in Claude Code (`/name`) and Codex (`$name`).
 
-| The value tab, as the owner sees it | The Health tab, with the watchdog's findings |
+| The value tab, as the client sees it | The Health tab, with the watchdog's findings |
 |---|---|
-| ![Value tab: a one-line verdict, four headline figures each with a comparison, rent on time by month, upcoming certificates](docs/images/telemetry-value.png) | ![Health tab: 24 hours of checks, a finding with its evidence and what it would do, and what the watchdog watches](docs/images/telemetry-health.png) |
+| ![Value tab: a one-line verdict, four figures with comparisons, hours saved by week, what did the work](skills/telemetry/references/images/bookings-value.png) | ![Health tab: 24 hours of checks, a finding with its evidence and what it would do, and what the watchdog watches](skills/telemetry/references/images/bookings-health.png) |
 
-<sub>Design boards with placeholder data.</sub>
+<sub>Design boards with placeholder data. All sixteen, across four very different builds, are in [`skills/telemetry/references/examples/`](skills/telemetry/references/examples/), each plan ending with its own boards.</sub>
 
 ## Quick start
 

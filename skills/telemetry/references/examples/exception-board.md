@@ -96,3 +96,23 @@ The build watches rent, compliance, cleaners and the books, and raises a card on
 1. Should the owner see Grimsby and Hull split from Leeds? Best guess: yes, as a filter on the property grid, not separate pages.
 2. Is “about 6 days” to clear before the board good enough to show? Best guess: show it, labelled as the ops manager’s estimate.
 3. Does the owner want the morning briefing linked from here? Best guess: link it from the status line.
+
+## What it looks like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**The approved page plan**
+
+![The approved page plan](../images/exceptions-plan.png)
+
+**Value tab with the Owner and Operations switch**
+
+![Value tab with the Owner and Operations switch](../images/exceptions-value.png)
+
+**Every number: exception types, where they happen, scheduled jobs, every card, where the numbers come from**
+
+![Every number: exception types, where they happen, scheduled jobs, every card, where the numbers come from](../images/exceptions-detail.png)
+
+**Health tab: heartbeat grid and silence cards**
+
+![Health tab: heartbeat grid and silence cards](../images/exceptions-health.png)

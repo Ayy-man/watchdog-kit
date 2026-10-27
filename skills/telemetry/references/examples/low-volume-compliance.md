@@ -87,3 +87,23 @@ One role, the consultant, who sees everything. His clients use a separate portal
 1. Should the turnaround clock stop when the draft is ready or when he sends it? Best guess: show both, headline on ready for review.
 2. Does he want the credit-hours balance here? Best guess: no, it lives on its own page already.
 3. Any client he wants hidden from the register? Best guess: none.
+
+## What it looks like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**The approved page plan**
+
+![The approved page plan](../images/compliance-plan.png)
+
+**Value tab: a timeline, the register and proposals, for a few jobs a month**
+
+![Value tab: a timeline, the register and proposals, for a few jobs a month](../images/compliance-value.png)
+
+**Detail layer**
+
+![Detail layer](../images/compliance-detail.png)
+
+**Health tab**
+
+![Health tab](../images/compliance-health.png)

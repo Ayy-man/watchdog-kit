@@ -4,7 +4,7 @@ The look comes last and follows the client. None of what follows is a checklist;
 
 ## The bar for craft
 
-The design canvas "Client Health Page" (https://claude.ai/artifact/HVQWa5JQ2e4QkgSwwApat2, private; ask the account owner to share it if you cannot open it, and use the two boards in the repo's `docs/images/` meanwhile) holds the reference boards: how the skill thinks, the panel library, and four worked builds, each with the plan that produced it and its pages. Example A (the food tour bookings build) is the bar: its summary, its dense detail layer, its one-workflow page and its Health cards. Match that level of care, not its content or its colours. Examples B, C and D show the same thinking producing very different pages in three other design systems.
+The design canvas "Client Health Page" (https://claude.ai/artifact/HVQWa5JQ2e4QkgSwwApat2, private; ask the account owner to share it if you cannot open it, and use the screenshots of every board in `references/images/` meanwhile; each worked plan in `examples/` ends with its own boards) holds the reference boards: how the skill thinks, the panel library, and four worked builds, each with the plan that produced it and its pages. Example A (the food tour bookings build) is the bar: its summary, its dense detail layer, its one-workflow page and its Health cards. Match that level of care, not its content or its colours. Examples B, C and D show the same thinking producing very different pages in three other design systems.
 
 ## Tools, in the order they usually help
 

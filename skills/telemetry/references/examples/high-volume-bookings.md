@@ -80,3 +80,23 @@ Owned by the Watchdog: every booking got its confirmation, review requests went 
 ## 8. Open questions
 
 1. Should guides get a tiny page of their own with tomorrow's tours? Best guess: not on this page; it is a separate feature.
+
+## What it looks like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**Value tab: the verdict, four figures with comparisons, hours saved by week, what did the work**
+
+![Value tab: the verdict, four figures with comparisons, hours saved by week, what did the work](../images/bookings-value.png)
+
+**Detail layer: every number, with sources and the dense tables**
+
+![Detail layer: every number, with sources and the dense tables](../images/bookings-detail.png)
+
+**Health tab: checks over 24 hours, a finding with evidence and verdict keys, what it watches**
+
+![Health tab: checks over 24 hours, a finding with evidence and verdict keys, what it watches](../images/bookings-health.png)
+
+**One workflow, step by step, with timings per run**
+
+![One workflow, step by step, with timings per run](../images/bookings-workflow.png)

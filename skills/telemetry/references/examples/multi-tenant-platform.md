@@ -108,3 +108,15 @@ Cost is recorded in an owner-only pipeline and never enters the events a coach's
 1. Should success staff see cost? Best guess: no, counts only, same as admin.
 2. What counts as at risk? Best guess: bookings down 40% on their 4-week average, or no replies for 48 hours.
 3. Do affiliates need this page at all? Best guess: yes, a small one; it replaces an emailed spreadsheet.
+
+## What it looks like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**The approved page plan, with the role matrix**
+
+![The approved page plan, with the role matrix](../images/tenants-plan.png)
+
+**Value tab per role, with the hidden-data banner and margin shown as absent**
+
+![Value tab per role, with the hidden-data banner and margin shown as absent](../images/tenants-value.png)

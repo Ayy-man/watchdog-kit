@@ -74,3 +74,11 @@ The usual mistake is our own look on their app, or a dashboard template that ign
 ## When new requirements arrive
 
 Quote the new requirement under `## Changes` with the date and who said it. Re-run only the steps it touches, show the difference, and get approval again before rebuilding. A requirement that conflicts with a rule in `rules.md` is raised with the closest alternative that keeps the rule, never quietly followed and never quietly dropped.
+
+## What a finished plan looks like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**How the skill thinks a page through: the ten steps and the self-check**
+
+![How the skill thinks a page through: the ten steps and the self-check](images/plan-steps.png)

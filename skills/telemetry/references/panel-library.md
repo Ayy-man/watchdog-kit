@@ -65,3 +65,11 @@ Each entry says what the panel is for, when to use it, and the mistake to avoid.
 ## Your own panel
 
 If the build needs something none of these show, make it. Write in the plan why the library did not cover it, and add it here afterwards with its use and its mistake, so the next build has it.
+
+## What the panels look like
+
+Design boards with placeholder data, from the reference canvas. They show the bar, not a template: build in the client's own design system.
+
+**The panel library, tools and rules**
+
+![The panel library, tools and rules](images/panel-library.png)
