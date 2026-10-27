@@ -57,6 +57,12 @@ scripts/         install and vendoring helpers
 
 `skills/telemetry` is the front door, a separate user-invoked skill (`/telemetry`, `$telemetry`) that puts telemetry on a build end to end, in layers: it scans the code and writes a services map, installs PostHog the Hexona way (tags on every path, identify, AI privacy mode, the reverse proxy, replay masking, n8n and GoHighLevel events, and a billing gate it will not pass without a human), then thinks the client-facing page through in ten steps (`references/thinking.md`), writes `.telemetry/PAGE-PLAN.md` and stops for approval, and builds the page in the client's own stack and design system. On Custodian builds it then hands on to `watchdog-build`, which reads `.telemetry/` as input and whose findings page becomes the page's Health tab. It writes only `.telemetry/` and never the watchdog journal. Four worked plans in `references/examples/` show the same steps producing very different pages.
 
+| The value tab, as the owner sees it | The Health tab, with the watchdog's findings |
+|---|---|
+| ![Value tab: a one-line verdict, four headline figures each with a comparison, rent on time by month, upcoming certificates](docs/images/telemetry-value.png) | ![Health tab: 24 hours of checks, a finding with its evidence and what it would do, and what the watchdog watches](docs/images/telemetry-health.png) |
+
+Both are design boards with placeholder data, from the canvas the four worked plans were drawn on.
+
 ## Vocabulary
 
 These words mean one thing each, everywhere in this repo and in every prompt it generates.
