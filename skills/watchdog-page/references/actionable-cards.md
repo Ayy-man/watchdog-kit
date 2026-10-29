@@ -33,7 +33,7 @@ Replay both current rows and the next generated findings. A prompt-only fix leav
 
 ## What the viewer sees
 
-Show the affected subject in familiar words, what is wrong, why it matters and a concrete next step without opening a disclosure. Keep the hypothetical automated plan and exact message folded and clearly inert. A visible instruction to check or correct something is not permission for the watchdog to execute it.
+Show the affected subject in familiar words, what is wrong, why it matters and a concrete next step without opening a disclosure. The page model reads that step from the `CHECKS.md` row for the finding's check and kind, filled with the subject's familiar name; a kind with no row is a gap to fix in `CHECKS.md`, never a reason to show `wouldDo` instead. Keep the hypothetical automated plan and exact message folded and clearly inert. A visible instruction to check or correct something is not permission for the watchdog to execute it.
 
 "Raise an alert", "review the issue" and "fix the pipeline" are not useful next steps for an operator. Name the decision and where it can be made. If the only useful action is technical maintenance, route the task to its declared owner. Show only facts that change that decision; keep internal keys, ids, hashes and raw evidence in Dev mode or the trace. Make grammatical copy templates rather than replacing isolated words and leaving broken sentences.
 

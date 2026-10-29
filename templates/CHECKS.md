@@ -33,9 +33,9 @@ Incidents in no cluster, with why: {list}. Incidents with `catchable: no`: {coun
 
 ## Operator decisions
 
-| Check / condition | Owner | Obligation and applicable product / scope | Evidence that settles or contradicts it, including manual completion | Useful next step | Shared action identity, if any |
+| Check / kind | Owner | Obligation and applicable product / scope | Evidence that settles or contradicts it, including manual completion | Useful next step | Shared action identity, if any |
 |---|---|---|---|---|---|
-| {check / condition} | {role, never inferred from subject type} | {work owed, recipient, deadline} | {authoritative fields and limits of missing proof} | {where the person can decide or correct it} | {scope, subject/event, obligation, occurrence; no text-only matching} |
+| {check_id / kind} | {role, never inferred from subject type} | {work owed, recipient, deadline} | {authoritative fields and limits of missing proof} | {visible step: what to check, decide or correct, and where, with the subject named} | {scope, subject/event, obligation, occurrence; no text-only matching} |
 
 ## Evals
 

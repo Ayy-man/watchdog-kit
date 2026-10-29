@@ -19,7 +19,7 @@ The main column. Tabs: To review (open findings with no verdict, or a stale one;
 - a detail paragraph: what is wrong, how the check can tell, what happens if nobody acts;
 - fact rows under plain labels: a model finding's cited values under the labels stored with it ("Venue request to Neon Cactus: arrival time asked for", 16:45), a rule finding's actionable facts with ids and bookkeeping hidden, times on one clock in the client's zone, money and durations formatted, ages computed at render time;
 - a link to the subject in the app;
-- a visible next step naming what this viewer should check, decide or correct and where; it is an instruction for the person, never a claim the watchdog acted;
+- a visible next step naming what this viewer should check, decide or correct and where; it is an instruction for the person, never a claim the watchdog acted, and it comes from the check-and-kind map in `CHECKS.md`, never from `wouldDo`;
 - a hidden plan: "What it would do" and "What it would say", folded by default behind a disclosure, so the inert action and the exact words are reviewable but do not read as something that happened;
 - the verdict row.
 

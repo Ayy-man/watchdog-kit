@@ -67,7 +67,7 @@ export default {
         title: `24h reminder for appointment ${s.id} is overdue with no row`,
         detail: `Due ${dueAt.toISOString()} with ${OVERDUE_GRACE_MS / 3_600_000}h grace; no 24h reminder row exists.`,
         link: `/appointments/${s.id}`,
-        wouldDo: 'Raise a missed-reminder task for the owner',
+        wouldDo: 'Check the provider log for a 24h reminder and send one only if none was accepted',
         wouldSay: null,
         evidence: [
           { source: 'v_appointments', id: s.id, field: 'starts_at', value: s.starts_at },
