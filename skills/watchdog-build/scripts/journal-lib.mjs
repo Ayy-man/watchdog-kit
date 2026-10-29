@@ -29,7 +29,7 @@ const GATES = ['doors_no_unknowns_hidden', 'holdout_recall_by_severity', 'live_f
   'model_eval_all_cases_counted', 'own_key_own_budget', 'forbidden_write_fails', 'real_sweep_observed'];
 export const REQUIRED = {
   0: ['.watchdog/MAPPING.md', '.watchdog/CONTRACT.md', '.watchdog/EGRESS.md', '.watchdog/incident-sample.jsonl'],
-  1: ['.watchdog/explainer.html', '.watchdog/CANVAS.md'],
+  1: ['.watchdog/explainer.html', '.watchdog/CANVAS.md', '.watchdog/canvas.html'],
   2: ['docs/incidents/incidents.jsonl', 'docs/incidents/holdout.json'],
   3: ['.watchdog/HEARTBEATS.md'],
   4: ['.watchdog/OBLIGATIONS.md', '.watchdog/CHECKS.md'],

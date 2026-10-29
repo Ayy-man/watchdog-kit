@@ -130,7 +130,7 @@ An existing alert is evidence that another detector reported a fault, which may 
 | `CONTRACT.md` | survey | The doors table with the fixed status words and no empty proof cell; Obligations; Unsupported and unknown; Shared external ids |
 | `EGRESS.md` | survey | Sections `Pseudonym`, `Fields`, `Retention` |
 | `incident-sample.jsonl` | survey | About 20 incident rows, same row shape as `docs/incidents/incidents.jsonl` |
-| `explainer.html`, `CANVAS.md` | explain | The one-screen explainer, and the page design brief with sections `Box and doors`, `Tokens`, `Parts`, `Keyboard path`, `Empty, erroring and unknown states` |
+| `explainer.html`, `CANVAS.md`, `canvas.html` | explain | The one-screen explainer, the page design drawn as a static mock in the client's tokens, and the page design brief with sections `Box and doors`, `Tokens`, `Parts`, `Keyboard path`, `Empty, erroring and unknown states` |
 | `docs/incidents/incidents.jsonl`, `docs/incidents/holdout.json` | incidents | Rows with `id, found_by, kind, root_cause, watchdog{check, catchable, why}, existing_detection[{source, status, detected_at, notified_at, evidence}]`; a holdout object with `frozen_at` and `cases`, each case an id that exists with as-of inputs and a detection deadline (or `replayable: false` and a reason), and `adjudicated_by` and `adjudicated_at`; the phase leaves those three null and the orchestrator fills them from the human's answers before hashing. The validator enforces, here and in `incident-sample.jsonl`: `watchdog.catchable` is `yes`, `partly` or `no`; `watchdog.check` is a check id or `null` (before checks exist, a provisional name or `null`); `existing_detection` status is `yes`, `no` or `unknown`, and `no` needs evidence that the detector's history was complete |
 | `HEARTBEATS.md` | heartbeats | Sections `Wrapper`, `Jobs`, `Parity`, `Doors`, `Role` |
 | `OBLIGATIONS.md` | checks | The obligation table with its version and time zone, written from the business rules before the sender's code is read, plus the disagreements found afterwards |
@@ -181,7 +181,7 @@ An authorisation or approval counts only as `approved` with a human `by`; `rejec
 
 | Phase | Needs artefacts from | Needs decisions | Writes |
 |---|---|---|---|
-| 1 explain | 0 | `d0.*` | `.watchdog/explainer.html`, `.watchdog/CANVAS.md` |
+| 1 explain | 0 | `d0.*` | `.watchdog/explainer.html`, `.watchdog/CANVAS.md`, `.watchdog/canvas.html` |
 | 2 incidents | 0 | `d0.*` | `.watchdog/incident-shards/`, `docs/incidents/`, `scripts/eval-incidents-schema.mjs` |
 | 3 heartbeats | 0 | `d0.*` | `lib/watchdog/` core, db and jobs, migrations, the package manifest and lockfile |
 | 4 checks | 2, 3 | `d0.*` | `lib/watchdog/checks/`, `.watchdog/OBLIGATIONS.md`, `.watchdog/CHECKS.md`, check evals |

@@ -1,11 +1,11 @@
 ---
 name: watchdog-explain
-description: Produce a one-screen visual explainer of this client's doors and end states and a design brief (the canvas) for the watchdog page in the client's own design tokens, then stop for the human to approve both. Loaded by watchdog-build during a build; not for use on its own.
+description: Produce a one-screen visual explainer of this client's doors and end states, and the watchdog page's design (a written brief plus a static mock drawn in the client's own design tokens), then stop for the human to approve both. Loaded by watchdog-build during a build; not for use on its own.
 ---
 
 # watchdog-explain
 
-You are turning the approved doors contract into two things a non-engineer can hold in their head: a picture of the app as a box with doors, and a brief for the page where findings will be judged. Read `../watchdog-build/references/shared-contract.md` for the vocabulary, then `.watchdog/CONTRACT.md`, `.watchdog/EGRESS.md` and `.watchdog/MAPPING.md`, because the explainer must use this client's real door names and nothing invented. The canvas, in this skill, is `.watchdog/CANVAS.md`: the written design brief the findings page will be built from.
+You are turning the approved doors contract into two things a non-engineer can hold in their head: a picture of the app as a box with doors, and the design of the page where findings will be judged, written as a brief and drawn as a mock. Read `../watchdog-build/references/shared-contract.md` for the vocabulary, then `.watchdog/CONTRACT.md`, `.watchdog/EGRESS.md` and `.watchdog/MAPPING.md`, because the explainer must use this client's real door names and nothing invented. The canvas, in this skill, is `.watchdog/CANVAS.md`: the written design brief the findings page will be built from.
 
 ## 1. Draw the box and the doors
 
@@ -21,16 +21,22 @@ Look for the client's design system first: a design or brand document at the rep
 
 Then write `.watchdog/CANVAS.md` from `$KIT/templates/CANVAS.md`: the brief for the watchdog page. Read `references/page-anatomy.md` before writing a line of the brief: it describes the first installation's page part by part, and the parts it names (the receipt line under the title, the uptime strip of sweep slots, the finding cards with evidence rows, a visible next step and the folded hypothetical would-do and would-say, the verdict keys, the per-check scoreboard, the trace page) are defined there, with why each exists. If `.telemetry/PAGE-PLAN.md` exists and its `## Built` section says the page is built, the watchdog page is not a separate page: it becomes that page's Health tab, replacing the interim checks there, so the brief says so, uses the same shell, tabs and tokens as the built page, and keeps the role scoping the plan set. Map every part onto this client's tokens and name the subject types from the contract that cards will link to. Say what a card looks like in each verdict state and in the stale-verdict state, and what the page shows when a check has errored or a door is unknown. Include the keyboard path through a card, because adjudication is a long sitting and a mouse-only page slows it.
 
+Then draw the brief as `.watchdog/canvas.html`: a static, self-contained mock of the page in the client's tokens, built from the brief and nothing else, so the human approves a design they can see rather than a description of one. Show the parts the brief names with fixture findings in this client's words (one card in each verdict state and the stale-verdict state, one grouped card, one errored check and one unknown door, and the empty list), each card with its visible next step and its folded would-do. Mark every invented token on the mock where it is used. Nothing in it reads app data or links anywhere live. Where the two disagree, the brief wins and the mock is redrawn.
+
+## Publish them where the human can look
+
+Where the host can publish a private page (Claude Code's Artifact tool), publish `explainer.html` and `canvas.html` as two private artifacts, keeping the files as the source of truth, and put both links in the stop; a later redraw republishes to the same link. Where it cannot (Codex), give the absolute file paths to open in a browser. Publishing never shares a page with anyone; the human decides that.
+
 ## 3. Check it reads in two minutes
 
 Open the explainer in a browser if one is available and time a read of it. Cut until the caption plus the picture fit on one screen at 1280 wide and the door labels are legible at phone width with a 16 px gutter. The brief is checked against the contract: every door in the table appears in the picture, and every scope type in the brief exists in the contract.
 
 ## 4. Stop
 
-Write both artefacts and stop. Say what you wrote, then present two checkpoints with the files attached. Both must be approved before the page is built; nothing else waits on this phase.
+Write the three artefacts and stop. Say what you wrote, then present two checkpoints with the links attached, and end your turn: the human reads the explainer and looks at the mock before either question is put to them through a question tool. Both must be approved before the page is built; nothing else waits on this phase.
 
 ### Checkpoint: d1.explainer
-Evidence: `.watchdog/explainer.html`. This picture is what every later finding will be read against, so any door they would name differently, any end state missing and any arrow pointing the wrong way goes back into it now.
+Evidence: `.watchdog/explainer.html`, or its artifact link. This picture is what every later finding will be read against, so any door they would name differently, any end state missing and any arrow pointing the wrong way goes back into it now.
 
 ---
 Does the picture match how you understand your own app?
@@ -40,13 +46,13 @@ Does the picture match how you understand your own app?
 
 `node $BUILD/scripts/journal-append.mjs 1 decision --id d1.explainer --outcome <approved|rejected> --answer "..." --by "<who>"`
 ### Checkpoint: d1.canvas
-Evidence: `.watchdog/CANVAS.md`, with every token you had to invent called out because neither a design system nor the app's own styles defined it, so the human can supply the real one.
+Evidence: the mock (`.watchdog/canvas.html`, or its artifact link) and the brief it draws (`.watchdog/CANVAS.md`), with every token you had to invent called out because neither a design system nor the app's own styles defined it, so the human can supply the real one.
 
 ---
 Is the page brief the design to build?
-1. Approve as written
+1. Approve as drawn
 2. Approve, and use these tokens in place of the invented ones (name them)
-3. Reject, with these changes (the brief is rewritten)
+3. Reject, with these changes (the brief is rewritten and the mock redrawn)
 4. Something else (say what)
 
 `node $BUILD/scripts/journal-append.mjs 1 decision --id d1.canvas --outcome <approved|rejected> --answer "..." --by "<who>"`

@@ -46,7 +46,7 @@ A stop in the middle of a phase (phase 5 asks for the key and a confirmation of 
 | # | Skill | Produces | Stop |
 |---|---|---|---|
 | 0 | `watchdog-survey` | `.watchdog/MAPPING.md`, `CONTRACT.md`, `EGRESS.md`, `incident-sample.jsonl` | `d0.scopes`, `d0.egress`, `d0.caps` |
-| 1 | `watchdog-explain` | `.watchdog/explainer.html`, `.watchdog/CANVAS.md` | `d1.explainer`, `d1.canvas` |
+| 1 | `watchdog-explain` | `.watchdog/explainer.html`, `.watchdog/CANVAS.md`, `.watchdog/canvas.html` | `d1.explainer`, `d1.canvas` |
 | 2 | `watchdog-incidents` | `docs/incidents/incidents.jsonl`, `docs/incidents/holdout.json` | `d2.holdout` |
 | 3 | `watchdog-heartbeats` | Heartbeats, the sweep route, parity and drift evals, door adapters and door checks, the reader and writer roles; `.watchdog/HEARTBEATS.md` | `d3.credential`, only if one is needed |
 | 4 | `watchdog-checks` | `lib/watchdog/checks/*`, evals, conformance run, live dry run; `.watchdog/OBLIGATIONS.md`, `CHECKS.md` | `d4.verdicts` |
@@ -90,7 +90,7 @@ A stop is a question with the evidence attached, not a status update, and every 
 3. Something else (say what)
 ```
 
-Name the options; the human picks rather than composes, and the recorded answers stay comparable across clients. Where the host has a question tool, offer the same options through it; where it has none (Codex), the numbered list is the question and the human types a number. End with the command that records the answer. Markdown headings and rules only, nothing drawn in box characters. Record the answer in the journal with who gave it and when. The build does not continue on silence; in run-ahead mode it continues elsewhere and comes back to the queue.
+Name the options; the human picks rather than composes, and the recorded answers stay comparable across clients. The evidence comes before the question: post the stop as text with the artefacts linked (published as private artifacts where the host can publish them, see the explain phase) and end your turn, so the human can read the contract or look at the design before anything asks for an answer. Never open a question tool in the same turn that first shows its evidence, because the tool covers the screen and invites an approval of something nobody has seen. On the human's next message, take a typed number as the answer, or, if they say they have looked, offer the same options through the host's question tool where it has one; where it has none (Codex), the numbered list is the question and the human types a number. End with the command that records the answer. Markdown headings and rules only, nothing drawn in box characters. Record the answer in the journal with who gave it and when. The build does not continue on silence; in run-ahead mode it continues elsewhere and comes back to the queue.
 
 ## When something fails
 

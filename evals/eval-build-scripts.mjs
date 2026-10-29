@@ -52,6 +52,7 @@ const FILES = {
   },
   1: {
     '.watchdog/explainer.html': '<!doctype html><title>Explainer</title>',
+    '.watchdog/canvas.html': '<!doctype html><title>Watchdog page</title>',
     '.watchdog/CANVAS.md': '# Canvas\n\n## Box and doors\n\nOne box.\n\n## Tokens\n\nCream.\n\n## Parts\n\nList.\n\n## Keyboard path\n\nTab.\n\n## Empty, erroring and unknown states\n\nShown.\n',
   },
   2: {
