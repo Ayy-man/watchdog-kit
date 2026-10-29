@@ -55,9 +55,9 @@ Health: {Watchdog page / this skill's Health tab / switched-off state}
 
 ## 6. Health checks
 
-| Check | Catches | Protects |
-|---|---|---|
-| {check} | {silence / staleness / sent not confirmed / stuck / error} | {the promise it protects} |
+| Check | Catches | Protects | Owner and visible next step | Applicability and completion proof |
+|---|---|---|---|---|
+| {check} | {silence / staleness / sent not confirmed / stuck / error} | {the promise it protects} | {role, decision and where} | {product/scope, manual completion, what missing evidence cannot prove} |
 
 ## 7. Data to add
 

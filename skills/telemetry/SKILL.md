@@ -84,7 +84,7 @@ Stop at the billing gate. The install is not done until the human confirms a bil
 
 1. **Data first.** Add the events and properties the plan lists, in the files and workflows it names, through the same tagging as layer 2. Write role-scoped queries so that a figure a role must not see never reaches that role's data. Verify each new event lands with a real query before building a panel on it.
 2. **Design.** Follow `references/design.md`.
-3. **Build** the tabs and panels in the plan's order, per role. Keep the data shaping in a pure module with tests that use a fixed `now`, so the comparisons, the absent states and the role scoping can be tested offline.
+3. **Build** the tabs and panels in the plan's order, per role. For Health cards, apply the role, evidence, visible-action and grouping rules in `references/rules.md` to both check definitions and actual retained instances. Record a dated before/after replay and its limits under `## Built`; no current instances means fixture verification, not production proof. Keep the data shaping in a pure module with tests that use a fixed `now`, so the comparisons, the absent states and the role scoping can be tested offline.
 4. **Check** every rule in `references/rules.md` against the built page, then run the client's own build and tests through its own scripts. Look at the page as each role, at phone width for any role that lives on a phone, and in its empty, stale and erroring states.
 5. **Record** what was built, and anything that differs from the plan and why, under `## Built` in PAGE-PLAN.md. Tell the human what is ready to look at and as which roles. Merging and deploying are theirs.
 

@@ -27,6 +27,7 @@ Dispatch the `check-writer` subagent once per cluster, in parallel where cluster
 - computes every due instant in code, in the client's zone, from the obligation table;
 - builds each finding's subject from the rows and leaves the id to the core;
 - carries evidence as refs (source, id, field, value) a human can check in the trace;
+- declares the intended owner and a useful manual next step per condition in `CHECKS.md`; validates product and scope applicability, authoritative manual completion and contradictory evidence before claiming an automated failure means work is undone; a missing flag or delivery record is not proof of non-delivery;
 - fills `wouldDo` and `wouldSay` with the exact action and words it would use, inert;
 - calls `coverage.examined(...)` for every subject it positively looked at, so the sweep (`lib/watchdog/core/run.js`) may resolve a finding it no longer sees; a check that reads a table has not examined every subject in it;
 - says `unknown` where the adapter says unknown; a door with `deliveryDoor: 'none'` never gets a "not delivered" finding; an absent row on a door with `failureErasesEvidence` is reported as unknown with the reason;

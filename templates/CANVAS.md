@@ -20,8 +20,12 @@ One row per part of the page, mapped onto this client's design.
 |---|---|---|---|
 | {title with receipt line} | {last sweep, coverage} | | {fresh, stale} |
 | {uptime strip} | {sweeps over the last days as one-height status bars, new-finding counts above, open trend in words} | | {healthy, missed, errored} |
-| {finding card} | {context line naming the subject, plain fact rows, folded would-do and would-say; dev mode adds refs, quotes, ids, trace} | {conversation, order, ...} | {unjudged, each verdict, stale verdict, back again} |
+| {finding card} | {context line naming the subject, plain fact rows, visible next step, folded hypothetical would-do and would-say; dev mode adds refs, quotes, ids, trace} | {conversation, order, ...} | {unjudged, each verdict, stale verdict, back again} |
 | {checks rail} | {per-check scoreboard, recent sweeps} | | {errored, unknown door} |
+
+## Attention policy
+
+{For each viewer: actionable obligations and scopes, technical faults routed to another owner, exact grouping criteria and per-member verdicts, order by business deadline and consequence. If age hiding is chosen: interval, exceptions, rationale, meaningful-change fingerprint, persisted change time, legacy unknown history and where hidden findings remain inspectable. Hiding never resolves a finding or removes it from precision or coverage.}
 
 ## Keyboard path
 

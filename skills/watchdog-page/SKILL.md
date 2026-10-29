@@ -9,6 +9,10 @@ You are building the place where every finding is judged. The page is how the wa
 
 Report-only holds for the page as for the sweep: the page never reads app tables at all, and its reads and the verdict write go through the writer from `lib/watchdog/db.js`, which can see the watchdog's tables and nothing of the app's.
 
+## Attention policy
+
+Read `references/actionable-cards.md` before building the queue. Audit check definitions and actual retained findings separately; a grounded fact is not automatically a task for this viewer. Record the role, obligation, scope, contradictory evidence, useful next step, grouping rule and any project-specific unchanged-age policy in the page artefact. Replay the same dated snapshot through the old and new policies so every removed card has an explanation. Use only watchdog-table reads within the approved cap, and record unavailable live evidence rather than inventing cards or triggering a sweep to clean up the list. This adds evidence to the existing page work, not a new approval checkpoint.
+
 ## 1. Build the page from the canvas
 
 When the canvas says the page is the Health tab of the telemetry page, build it into that page's existing shell and tab, not on a route of its own, remove the interim silence and freshness checks it replaces, and record the switch under `## Built` in `.telemetry/PAGE-PLAN.md`. Its reads still go through the watchdog writer and nothing else.
@@ -24,7 +28,7 @@ A read of findings goes through a route behind that gate that selects from `watc
 
 ## 3. Verdicts
 
-Three keys per card, Correct, False alarm, Unsure, with an optional reason, and the keyboard path from the canvas. The verdict route writes the verdict columns and `meta.verdict_context` from `$KIT/core/verdicts.js`, so a finding that later changes or reopens reads as to review again with the old verdict kept beside it. System findings stay out of the totals. Verdicts are the only human write the watchdog tables take, and the route must refuse any other field.
+Three keys per canonical finding, Correct, False alarm, Unsure, with an optional reason, and the keyboard path from the canvas. A grouped card exposes each member with its own verdict and trace; judging a representative never judges its siblings. A false-alarm reason remains editable after its card leaves the action list. The verdict route writes the verdict columns and `meta.verdict_context` from `$KIT/core/verdicts.js`, so a finding that later changes or reopens reads as to review again with the old verdict kept beside it. System findings stay out of the totals. Verdicts are the only human write the watchdog tables take, and the route must refuse any other field.
 
 ## 4. Alert routes
 
@@ -38,4 +42,4 @@ Where the human asked for a central view across installations, build the project
 
 ## 6. Write the artefact and stop
 
-Run the page-model evals (`node scripts/eval-watchdog-page-model.mjs`, offline with a fixed `now`, plus the alert evals and the hub projection eval) and the client's own build, using the build script in `package.json` and any wrapper or lock its scripts already put around it, never a bare framework command that skips them; then write `.watchdog/PAGE.md` from `$KIT/templates/PAGE.md` with the five sections: the routes and components built, the trace, the verdict route and its context rule, the alert kinds and their caps, and the hub decision. Stop. Say what you wrote and that no route can send at report-only; there is no decision here unless the canvas could not be followed, in which case say what you changed and why.
+Include the opposing cases in `references/actionable-cards.md` in the generated page-model evals, covering both existing stored rows and new findings. Run the page-model evals (`node scripts/eval-watchdog-page-model.mjs`, offline with a fixed `now`, plus the alert evals and the hub projection eval) and the client's own build, using the build script in `package.json` and any wrapper or lock its scripts already put around it, never a bare framework command that skips them; then write `.watchdog/PAGE.md` from `$KIT/templates/PAGE.md` with the routes and components built, the card audit, the trace, the verdict route and its context rule, the alert kinds and their caps, and the hub decision. Stop. Say what you wrote and that no route can send at report-only; there is no decision here unless the canvas could not be followed, in which case say what you changed and why.

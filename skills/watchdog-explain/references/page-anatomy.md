@@ -19,8 +19,11 @@ The main column. Tabs: To review (open findings with no verdict, or a stale one;
 - a detail paragraph: what is wrong, how the check can tell, what happens if nobody acts;
 - fact rows under plain labels: a model finding's cited values under the labels stored with it ("Venue request to Neon Cactus: arrival time asked for", 16:45), a rule finding's actionable facts with ids and bookkeeping hidden, times on one clock in the client's zone, money and durations formatted, ages computed at render time;
 - a link to the subject in the app;
+- a visible next step naming what this viewer should check, decide or correct and where; it is an instruction for the person, never a claim the watchdog acted;
 - a hidden plan: "What it would do" and "What it would say", folded by default behind a disclosure, so the inert action and the exact words are reviewable but do not read as something that happened;
 - the verdict row.
+
+Group only exact shared actions with each canonical member independently reviewable; retain hidden findings with reasons under By check. Choose any unchanged-age policy for this client in the canvas, using reliable last-change history rather than first or last seen. An absent history is unknown, and hiding never resolves a fault or removes it from precision. Keep coverage gaps visible even when the action list is empty.
 
 A page-level **Dev mode** switch (remembered per viewer, off by default) adds what an engineer needs and an operator does not: the check id and "seen" words (first seen, last seen, sweeps, reopened count), model and confidence, each exact ref against its exact quote, every stored evidence key under its own name, the model's "also checked, and fine" notes, the keyboard hint and the trace link.
 
