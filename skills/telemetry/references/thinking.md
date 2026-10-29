@@ -6,6 +6,8 @@ The page exists to prove one thing to each person who opens it: that the build i
 
 The page proves the promise, so if the promise is vague the page will be a pile of numbers. Read the proposal, the scope, the kickoff call and the `/baseline` answers, and find the client's own words for the problem they paid to have solved. Decide the headline outcome in one sentence: time back, money in, risk avoided, exceptions caught, bookings made, or a mix in the order the client cares about.
 
+On an internal build (our own tool, no outside client), the promise comes from the repo's own planning docs, such as `.planning/PROJECT.md` and the roadmap, and the reader is our own team. Say whose promise it is in the plan, and decide explicitly whether partners who use the tool count as clients or as staff.
+
 The usual mistake is defaulting to "hours saved" because it is easy to compute. An owner who bought the build to stop losing rent, or to stay compliant, does not care about hours, and a page that leads with them tells him we did not listen.
 
 ## 2. Who opens this page, and what are they trying to find out?
@@ -30,6 +32,8 @@ Time saved is the figure this matters most for, and it comes two ways, shown sid
 - **Credited:** runs counted by the system, times the minutes per task the owner gave at kickoff (a baseline survey, if one was run). This is an estimate and is labelled as one, with who gave the minutes and when.
 
 If there is no baseline yet, the credited figure is absent, not zero, and the plan's open questions say who will run the survey. Re-survey at about day 90 replaces the kickoff minutes for the credited figure.
+
+If PostHog is new or nearly empty on a build that has been live for a while, take history from the database's own timestamps and use PostHog only from the next deploy onward; say which figures come from where. If previews and production share one database, find how test data is marked (a test org, a flag, an email domain) and filter it out of every figure, or list it as an open question before any number is shown.
 
 The usual mistakes are presenting a kickoff estimate as a measurement, and showing zero where the honest answer is "not known yet". A margin with one missing cost rate is absent, not zero.
 

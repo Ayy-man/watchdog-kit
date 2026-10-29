@@ -1,7 +1,6 @@
 ---
 name: telemetry
 description: Put telemetry on the build in the current repo, end to end. Scans the code for every service, installs PostHog in whichever account you choose (tags, identify, privacy, proxy, replay masking, n8n and GHL events, billing gate), then plans and builds the client-facing page that proves the build is doing what was promised, per role, and hands Custodian builds on to the Watchdog. Stops for approval at the plan and at the billing limits. Invoke it in a client repo as /telemetry in Claude Code or $telemetry in Codex; it resumes from .telemetry/, and you can drop notes or new requirements in at any time.
-disable-model-invocation: true
 argument-hint: "[--status | --install | --plan | --build | --change \"new requirement\"]"
 ---
 
